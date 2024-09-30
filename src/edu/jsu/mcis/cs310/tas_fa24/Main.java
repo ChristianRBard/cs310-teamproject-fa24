@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+=======
+//Caden Commit
 //Connor Bain
+
+>>>>>>> a400b9bd1f3ba32e31e4fbb53ff4cc9d7fa668b6
 package edu.jsu.mcis.cs310.tas_fa24;
 
 import edu.jsu.mcis.cs310.tas_fa24.dao.*;
@@ -23,7 +28,7 @@ public class Main {
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
         System.err.println("Test Badge: " + b.toString());
-
+        
     }
 
 }
