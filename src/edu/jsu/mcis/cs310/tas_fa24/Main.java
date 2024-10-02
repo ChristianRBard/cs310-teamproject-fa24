@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-=======
 //Caden Commit
 //Connor Bain
+//Christian Bard
 
->>>>>>> a400b9bd1f3ba32e31e4fbb53ff4cc9d7fa668b6
 package edu.jsu.mcis.cs310.tas_fa24;
 
 import edu.jsu.mcis.cs310.tas_fa24.dao.*;
