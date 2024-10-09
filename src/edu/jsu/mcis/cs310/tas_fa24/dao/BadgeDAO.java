@@ -16,63 +16,31 @@ public class BadgeDAO {
     }
 
     public Badge find(String id) {
-
         Badge badge = null;
-
-        PreparedStatement ps = null;
+        PreparedStatement pst = null;
         ResultSet rs = null;
 
         try {
-
             Connection conn = daoFactory.getConnection();
+            String query = "SELECT * FROM badge WHERE id = ?";
+            pst = conn.prepareStatement(query);
+            pst.setString(1, id);
+            rs = pst.executeQuery();
 
-            if (conn.isValid(0)) {
+            if (rs.next()) {
+                String badgeId = rs.getString("id");
+                String description = rs.getString("description");
+                int shiftId = rs.getInt("shiftid");
 
-                ps = conn.prepareStatement(QUERY_FIND);
-                ps.setString(1, id);
-
-                boolean hasresults = ps.execute();
-
-                if (hasresults) {
-
-                    rs = ps.getResultSet();
-
-                    while (rs.next()) {
-
-                        String description = rs.getString("description");
-                        badge = new Badge(id, description);
-
-                    }
-
-                }
-
+                badge = new Badge(badgeId, description, shiftId);
             }
-
         } catch (SQLException e) {
-
             throw new DAOException(e.getMessage());
-
         } finally {
-
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new DAOException(e.getMessage());
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    throw new DAOException(e.getMessage());
-                }
-            }
-
+            DAOUtility.close(rs, pst);
         }
 
         return badge;
-
     }
 
 }
