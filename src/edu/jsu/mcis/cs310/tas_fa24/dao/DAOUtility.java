@@ -5,6 +5,7 @@ import java.util.*;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import com.github.cliftonlabs.json_simple.*;
+import java.sql.*;
 
 /**
  * 
@@ -14,5 +15,36 @@ import com.github.cliftonlabs.json_simple.*;
  * 
  */
 public final class DAOUtility {
-
+    
+            
+        JsonArray records = new JsonArray();
+        
+        try {
+        
+            if (rs != null) {
+                
+                ResultSetMetaData rsmd = rs.getMetaData();
+                int column = rsmd.getColumnCount();
+                
+                while(rs.next()){
+                    JsonObject temp = new JsonObject();
+                    for(int x = 1; x <= column; x++){
+                        String columnName = rsmd.getColumnName(x);
+                        String value = rs.getString(x);
+                        temp.put(columnName, value);
+                    }
+                    records.add(temp);
+                }
+                
+                
+            }
+            
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return Jsoner.serialize(records);
+        
+    }
 }
