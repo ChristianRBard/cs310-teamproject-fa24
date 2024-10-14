@@ -19,14 +19,18 @@ public class Main {
 
         DAOFactory daoFactory = new DAOFactory("tas.jdbc");
         BadgeDAO badgeDAO = daoFactory.getBadgeDAO();
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
         
         // find badge
 
         Badge b = badgeDAO.find("C4F37EFF");
         
+        Punch p = punchDAO.find(3433);
+        
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
         System.err.println("Test Badge: " + b.toString());
+        System.out.println(p.toString());
         
     }
 

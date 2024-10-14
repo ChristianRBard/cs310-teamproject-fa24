@@ -1,16 +1,21 @@
 package edu.jsu.mcis.cs310.tas_fa24.dao;
+
 import edu.jsu.mcis.cs310.tas_fa24.Punch;
 import edu.jsu.mcis.cs310.tas_fa24.Badge;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
-import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.sql.*;
 
 public class PunchDAO {
-    private static final String QUERY_FIND = "SELECT * FROM event WHERE terminalid = ? AND badgeid = ? AND eventtypeid = ?";
-    
+    private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";
+    /*public class PunchDAO {
+    private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";
+    private static final String QUERY_LIST = "SELECT * FROM event WHERE badgeid = ? AND DATE(timestamp) = ?";*/
+
     private final DAOFactory daoFactory;
-    
-    PunchDAO(DAOFactory daoFactory){
+
+    public PunchDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
     
@@ -28,48 +33,82 @@ public class PunchDAO {
                 ps = conn.prepareStatement(QUERY_FIND);
                 ps.setInt(1, id);
                 
-                Boolean hasResults = ps.execute();
+                rs = ps.executeQuery();
                 
-                if(hasResults){
-                    rs = ps.getResultSet();
-                    while(rs.next()){
-                        int termid = rs.getInt("terminalid");
-                        String badgeid = rs.getString("badgeid");
-                        String timestamp = rs.getString("timestamp");
-                        int eventtype = rs.getInt("eventtypeid");
-                        Badge bad = badgeDAO.find(badgeid);
-                        LocalDateTime timestamp2 = LocalDateTime.parse(timestamp);
-                        
-                        punch = new Punch(id, termid, bad, timestamp2, EventType.valueOf(eventtype));
-                        
-                    }
-                }
-                
-                
+                if(rs.next()){
+                    System.out.println("Work");
+                    int termid = rs.getInt("terminalid");
+                    String badgeid = rs.getString("badgeid");
+                    Timestamp timestamp = rs.getTimestamp("timestamp");
+                    int eventType = rs.getInt("eventtypeid");
+                    Badge bad = badgeDAO.find(badgeid);
+                    EventType punchType = DAOUtility.getEventType(eventType);
+                    punch = new Punch(id, termid, bad, timestamp.toLocalDateTime(), punchType);
+                }  
             }
-        }catch (SQLException e) {
-
+        } catch (SQLException e) {
             throw new DAOException(e.getMessage());
-
         } finally {
-
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new DAOException(e.getMessage());
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    throw new DAOException(e.getMessage());
-                }
-            }
-
+            DAOUtility.close(rs, ps);
         }
         return punch;
-        
     }
 }
+    /*public Punch find(int id) {
+        Punch punch = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
+        try {
+            Connection conn = daoFactory.getConnection();
+            pst = conn.prepareStatement(QUERY_FIND);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                punch = extractPunchFromResultSet(rs);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        } finally {
+            DAOUtility.close(rs, pst);
+        }
+
+        return punch;
+    }*/
+
+    /*public ArrayList<Punch> list(Badge badge, LocalDate date) {
+        ArrayList<Punch> punchList = new ArrayList<>();
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
+        try {
+            Connection conn = daoFactory.getConnection();
+            pst = conn.prepareStatement(QUERY_LIST);
+            pst.setString(1, badge.getId());
+            pst.setDate(2, Date.valueOf(date));
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Punch punch = extractPunchFromResultSet(rs);
+                punchList.add(punch);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        } finally {
+            DAOUtility.close(rs, pst);
+        }
+
+        return punchList;
+    }*/
+
+    /*private Punch extractPunchFromResultSet(ResultSet rs) throws SQLException {
+        // Replace these fields with actual columns from your 'event' table
+        int id = rs.getInt("id");
+        String badgeId = rs.getString("badgeid");
+        String eventType = rs.getString("eventtype");
+        Timestamp timestamp = rs.getTimestamp("timestamp");
+
+        // Create and return a new Punch object
+        return new Punch(id, badgeId, EventType.valueOf(eventType.toUpperCase()), timestamp.toLocalDateTime());
+    }*/
