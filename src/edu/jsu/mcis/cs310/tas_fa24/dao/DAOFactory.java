@@ -40,7 +40,7 @@ public final class DAOFactory {
         return new PunchDAO(this);
     }
 
-    /*public DepartmentDAO getDepartmentDAO() {
+    public DepartmentDAO getDepartmentDAO() {
         return new DepartmentDAO(this);
     }
 
@@ -50,5 +50,5 @@ public final class DAOFactory {
     
     public EmployeeTypeDAO getEmployeeTypeDAO() {
         return new EmployeeTypeDAO(this);
-    }*/
+    }
 }
