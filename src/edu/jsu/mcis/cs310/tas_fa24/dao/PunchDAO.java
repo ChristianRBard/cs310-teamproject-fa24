@@ -36,7 +36,6 @@ public class PunchDAO {
                 rs = ps.executeQuery();
                 
                 if(rs.next()){
-                    System.out.println("Work");
                     int termid = rs.getInt("terminalid");
                     String badgeid = rs.getString("badgeid");
                     Timestamp timestamp = rs.getTimestamp("timestamp");

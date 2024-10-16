@@ -19,17 +19,25 @@ public class Main {
         DAOFactory daoFactory = new DAOFactory("tas.jdbc");
         BadgeDAO badgeDAO = daoFactory.getBadgeDAO();
         PunchDAO punchDAO = daoFactory.getPunchDAO();
+        ShiftDAO shiftDAO = daoFactory.getShiftDAO();
         
         // find badge
 
         Badge b = badgeDAO.find("C4F37EFF");
         
+        Badge b3 = badgeDAO.find("4382D92D");
+        
         Punch p = punchDAO.find(3433);
+        
+        Shift s = shiftDAO.find(1);
+        Shift s2 = shiftDAO.find(b3);
         
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
         System.err.println("Test Badge: " + b.toString());
         System.out.println(p.toString());
+        System.out.println("Test Shift 1: " + s.toString());
+        System.out.println("Test Shift 2: " + s2.toString());
         
     }
 

@@ -6,6 +6,7 @@ import java.sql.*;
 public class BadgeDAO {
 
     private static final String QUERY_FIND = "SELECT * FROM badge WHERE id = ?";
+    private static final String QUERY_FIND_JOBTYPE = "SELECT * FROM event WHERE badgeid = ?";
 
     private final DAOFactory daoFactory;
 
@@ -39,5 +40,4 @@ public class BadgeDAO {
 
         return badge;
     }
-
 }
