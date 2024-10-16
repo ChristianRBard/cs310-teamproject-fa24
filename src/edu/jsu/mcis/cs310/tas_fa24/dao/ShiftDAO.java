@@ -6,13 +6,13 @@ import java.sql.*;
 
 public class ShiftDAO {
 
-    /*private final DAOFactory daoFactory;
+    private final DAOFactory daoFactory;
 
     public ShiftDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 
-    public Shift find(Badge badge) {
+    public Shift find(int id){
         Shift shift = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -21,7 +21,7 @@ public class ShiftDAO {
             Connection conn = daoFactory.getConnection();
             String query = "SELECT * FROM shift WHERE id = ?";
             pst = conn.prepareStatement(query);
-            pst.setInt(1, badge.getShiftId());
+            pst.setInt(1, id);
             rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -44,5 +44,5 @@ public class ShiftDAO {
         Time shiftStop = rs.getTime("shiftstop");
 
         return new Shift(id, description, shiftStart.toLocalTime(), shiftStop.toLocalTime());
-    }*/
+    }
 }

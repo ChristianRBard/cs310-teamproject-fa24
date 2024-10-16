@@ -1,7 +1,6 @@
 //Caden Commit
 //Connor Bain
 //Christian Bard
-//Reid Ham
 
 package edu.jsu.mcis.cs310.tas_fa24;
 
