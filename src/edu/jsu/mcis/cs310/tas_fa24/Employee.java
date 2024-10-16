@@ -2,6 +2,7 @@ package edu.jsu.mcis.cs310.tas_fa24;
 
 import java.sql.Date;
 
+
 public class Employee {
 
     private int id;
@@ -71,11 +72,10 @@ public class Employee {
     }
 
     private String getEmployeeTypeDescription() {
-        switch (employeeTypeId) {
-            case 1: return "Full-Time";
-            case 2: return "Temporary / Part-Time";
-            default: return "Unknown Type";
-        }
+        return switch (employeeTypeId) {
+            case 1 -> "Full-Time";
+            default -> "Temporary / Part-Time";
+        }; //default: return "Unknown Type";
     }
 
     private String formatDate(Date date) {
