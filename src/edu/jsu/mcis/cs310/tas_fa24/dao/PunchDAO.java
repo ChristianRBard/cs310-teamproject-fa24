@@ -2,6 +2,7 @@ package edu.jsu.mcis.cs310.tas_fa24.dao;
 
 import edu.jsu.mcis.cs310.tas_fa24.Punch;
 import edu.jsu.mcis.cs310.tas_fa24.Badge;
+import edu.jsu.mcis.cs310.tas_fa24.Shift;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +53,7 @@ public class PunchDAO {
         }
         return punch;
     }
-}
+
     /*public Punch find(int id) {
         Punch punch = null;
         PreparedStatement pst = null;
@@ -111,3 +112,4 @@ public class PunchDAO {
         // Create and return a new Punch object
         return new Punch(id, badgeId, EventType.valueOf(eventType.toUpperCase()), timestamp.toLocalDateTime());
     }*/
+}
