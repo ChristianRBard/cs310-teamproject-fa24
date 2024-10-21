@@ -27,17 +27,20 @@ public class Main {
         
         Badge b3 = badgeDAO.find("4382D92D");
         
-        Punch p = punchDAO.find(2453);
+        Punch p = punchDAO.find(206);
         
         Shift s = shiftDAO.find(1);
         Shift s2 = shiftDAO.find(b3);
+        
+        p.adjust(s);
         
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
         System.err.println("Test Badge: " + b.toString());
         System.out.println(p.toString());
+        System.out.println(p.printAdjusted());
         System.out.println("Test Shift 1: " + s.toString());
         System.out.println("Test Shift 2: " + s2.toString());
-        p.adjust(s);
+        //p.adjust(s);
     }
 }

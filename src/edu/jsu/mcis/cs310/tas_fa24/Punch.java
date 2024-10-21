@@ -12,8 +12,8 @@ public class Punch {
     private final Badge badgeId;
     private final EventType punchtype;
     private final LocalDateTime originaltimestamp;
-    private final LocalDateTime adjustedtimestamp = null;
-    private PunchAdjustmentType adjustmenttype;
+    private LocalDateTime adjustedtimestamp = null;
+    private PunchAdjustmentType adjustmenttype = null;
     
     public Punch(int terminalid, Badge badgeID, EventType punchType){
        this.terminalid = terminalid;
@@ -22,12 +22,14 @@ public class Punch {
        this.originaltimestamp = LocalDateTime.now();
     }
    
-    public Punch(Integer id, int terminalid, Badge badgeID, LocalDateTime originaltimestamp, EventType punchType){
+    public Punch(Integer id, int terminalid, Badge badgeID, LocalDateTime originaltimestamp, EventType punchType, LocalDateTime adjustedtimestamp, PunchAdjustmentType adjustmenttype){
        this.id = id;
        this.terminalid = terminalid;
        this.badgeId = badgeID;
        this.punchtype = punchType;
        this.originaltimestamp = originaltimestamp;
+       this.adjustedtimestamp = adjustedtimestamp;
+       this.adjustmenttype = adjustmenttype;
     }
    
     public int getTerminalID (){
@@ -45,6 +47,18 @@ public class Punch {
     public LocalDateTime getOriginalTimeStamp(){
        return this.originaltimestamp;
     }
+    public LocalDateTime getAdjustedTimeStamp(){
+        return this.adjustedtimestamp;
+    }
+    public void setAdjustedTimestamp(LocalDateTime adjTimeStamp){
+        this.adjustedtimestamp = adjTimeStamp;
+    }
+    public PunchAdjustmentType getPunchAdjustmentType(){
+        return this.adjustmenttype;
+    }
+    public void setPunchAdjustmentType(PunchAdjustmentType adjType){
+        this.adjustmenttype = adjType;
+    }
     
     public Boolean isBetween(LocalTime ogt, LocalTime after, LocalTime before){
         Boolean truthStatement = false;
@@ -60,13 +74,17 @@ public class Punch {
         System.out.println(s.getDescription());
         LocalDateTime ogt = getOriginalTimeStamp();
         LocalTime ogtToTime = ogt.toLocalTime();
-        int gracePeriod = s.getGracePeriod();
-        int dockPenalty = s.getDockPenalty();
-        int intervalRound = s.getRoundInterval();
-        LocalTime before = ogtToTime.minusMinutes(gracePeriod);
-        LocalTime after = ogtToTime.plusMinutes(gracePeriod);
-        LocalTime shiftStart = s.getShiftStart();
-        LocalTime lunchStop = s.getLunchStop();
+        LocalDate ogtToDate = ogt.toLocalDate();
+        final int gracePeriod = s.getGracePeriod();
+        final int dockPenalty = s.getDockPenalty();
+        final int intervalRound = s.getRoundInterval();
+        final LocalTime before = ogtToTime.minusMinutes(gracePeriod);
+        final LocalTime after = ogtToTime.plusMinutes(gracePeriod);
+        final LocalTime shiftStart = s.getShiftStart();
+        final LocalTime shiftStop = s.getShiftStop();
+        final LocalTime lunchStart = s.getLunchStart();
+        final LocalTime lunchStop = s.getLunchStop();
+        PunchAdjustmentType adjType = PunchAdjustmentType.NONE;
         
         switch(getPunchType().ordinal()){
             case 0://Clock Out
@@ -76,14 +94,29 @@ public class Punch {
                     System.out.println("Shift Stop");
                     ogtToTime = shiftStop;
                     System.out.println(ogtToTime);
+                    adjType = PunchAdjustmentType.SHIFT_STOP;
                 }
                 
-                if(isBetween(ogtToTime, LocalTime.of(12, 00, 00), LocalTime.of(12, 30, 00))){
-                    System.out.println("Lunch Punch In");
-                    ogtToTime = lunchStop;
+                if(isBetween(ogtToTime, lunchStart, lunchStop)){
+                    System.out.println("Lunch Punch Out");
+                    ogtToTime = lunchStart;
+                    adjType = PunchAdjustmentType.LUNCH_START;
                 }
                 
+                if(!isBetween(ogtToTime, before, after)){
+                    System.out.println("DockPenalty");
+                    ogtToTime = shiftStop.minusMinutes(dockPenalty);
+                    adjType = PunchAdjustmentType.SHIFT_DOCK;
+                }
                 
+                if(ogtToTime.isAfter(after)){
+                    ogtToTime = shiftStop;
+                    adjType = PunchAdjustmentType.INTERVAL_ROUND;
+                }
+                
+                if(ogtToTime.equals(shiftStop)){
+                    ogtToTime = shiftStop;
+                }
                 
                 break;
             case 1://Clock In
@@ -92,20 +125,38 @@ public class Punch {
                     System.out.println("Shift Start");
                     ogtToTime = shiftStart;
                     System.out.println(ogtToTime);
+                    adjType = PunchAdjustmentType.SHIFT_START;
                 }
                 
-                if(isBetween(ogtToTime, LocalTime.of(12, 00, 00), LocalTime.of(12, 30, 00))){
+                if(isBetween(ogtToTime, lunchStart, lunchStop)){
                     System.out.println("Lunch Punch In");
                     ogtToTime = lunchStop;
+                    adjType = PunchAdjustmentType.LUNCH_STOP;
                 }
                 
-                break;
-            case 2://Time out means they forgot to clock out and the system handles it after a certain time has passed.
+                if(!isBetween(ogtToTime, before, after)){
+                    System.out.println("DockPenalty");
+                    ogtToTime = shiftStart.plusMinutes(dockPenalty);
+                    adjType = PunchAdjustmentType.SHIFT_DOCK;
+                }
                 
+                if(ogtToTime.isBefore(before)){
+                    ogtToTime = shiftStart;
+                    adjType = PunchAdjustmentType.INTERVAL_ROUND;
+                }
+                
+                if(ogtToTime.equals(shiftStart)){
+                    ogtToTime = shiftStart;
+                    adjType = PunchAdjustmentType.NONE;
+                }
+
+                break;
             default:
                 System.out.println("Invalid punch type!");
-                break;          
+                break;  
         }
+        setAdjustedTimestamp(ogtToTime.atDate(ogtToDate));
+        setPunchAdjustmentType(adjType);
     }
    
    @Override
@@ -117,13 +168,19 @@ public class Punch {
        StringBuilder s = new StringBuilder();
        DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");
        String fixedDate = originaltimestamp.format(format).toUpperCase();
-       System.out.println(originaltimestamp);
-       //s.append(id).append(" ");
        s.append("#").append(badgeId.getId()).append(" ");
        s.append(punchtype);
        s.append(": ").append(fixedDate);
-       
-       System.out.println(getPunchType());
+       return s.toString();
+   }
+   
+   public String printAdjusted(){
+       StringBuilder s = new StringBuilder();
+       DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");
+       String fixedDate = adjustedtimestamp.format(format).toUpperCase();
+       s.append("#").append(badgeId.getId()).append(" ");
+       s.append(punchtype);
+       s.append(": ").append(fixedDate).append(" (").append(adjustmenttype).append(") ");
        return s.toString();
    }
 }
