@@ -32,13 +32,21 @@ public class Main {
         Shift s = shiftDAO.find(1);
         Shift s2 = shiftDAO.find(b3);
         
+        Badge listTestBadge = badgeDAO.find("BE51FA92");
+        LocalDate listTestDate = LocalDate.of(2018, 8, 1);
+        ArrayList<Punch> punchList = punchDAO.list(listTestBadge, listTestDate);
+        
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
         System.err.println("Test Badge: " + b.toString());
         System.out.println(p.toString());
         System.out.println("Test Shift 1: " + s.toString());
         System.out.println("Test Shift 2: " + s2.toString());
-        
+        int counter = 0;
+        for (Punch i : punchList) {
+            counter++;
+            System.out.println("Punch Number " + counter + ": " + i.toString());
+        }
     }
 
 }
