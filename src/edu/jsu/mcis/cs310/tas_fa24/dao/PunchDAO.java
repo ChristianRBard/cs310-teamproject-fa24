@@ -83,7 +83,7 @@ public class PunchDAO {
         return punchList;
     }
 
-    /*public ArrayList<Punch> list(Badge badge, LocalDate startDate, LocalDate endDate) {
+    public ArrayList<Punch> list(Badge badge, LocalDate startDate, LocalDate endDate) {
         LocalDate dateCounter = startDate;
         ArrayList<Punch> rangePunchList = new ArrayList<>();
         rangePunchList.addAll(list(badge, dateCounter));
@@ -91,12 +91,12 @@ public class PunchDAO {
             System.out.print(p.toString() + "\t");
         }
         while (dateCounter.isBefore(endDate)) {
-            dateCounter.plusDays(1);
+            dateCounter = dateCounter.plusDays(1);
             rangePunchList.addAll(list(badge, dateCounter));
             
         }
         return rangePunchList;
-    }*/
+    }
 }
     /*public Punch find(int id) {
         Punch punch = null;
