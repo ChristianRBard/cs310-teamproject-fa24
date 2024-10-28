@@ -27,20 +27,33 @@ public class Main {
         
         Badge b3 = badgeDAO.find("4382D92D");
         
-        Punch p = punchDAO.find(206);
+        //Punch p = punchDAO.find(4943);
+
+        Punch p1 = punchDAO.find(3716);
+        Punch p2 = punchDAO.find(5004);
+
+        /* Adjust Punches According to Shift Rulesets */
+        
+        
         
         Shift s = shiftDAO.find(1);
-        Shift s2 = shiftDAO.find(b3);
+        Shift s2 = shiftDAO.find(2);
         
-        p.adjust(s);
+        //p.adjust(s);
+        p1.adjust(s);
+        p2.adjust(s2);
         
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
-        System.err.println("Test Badge: " + b.toString());
-        System.out.println(p.toString());
-        System.out.println(p.printAdjusted());
-        System.out.println("Test Shift 1: " + s.toString());
-        System.out.println("Test Shift 2: " + s2.toString());
+        //System.err.println("Test Badge: " + b.toString());
+        //System.out.println(p.toString());
+        //System.out.println(p.printAdjusted());
+        System.out.println("#28DC3FB8 CLOCK OUT: FRI 09/07/2018 15:30:00 (Shift Stop)");
+        System.out.println(p1.printAdjusted());
+        System.out.println(s2);
+        //System.out.println(p2.printAdjusted());
+        /*System.out.println("Test Shift 1: " + s.toString());
+        System.out.println("Test Shift 2: " + s2.toString());*/
         //p.adjust(s);
     }
 }

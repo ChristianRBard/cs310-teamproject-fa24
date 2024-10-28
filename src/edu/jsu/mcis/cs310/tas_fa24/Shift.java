@@ -18,21 +18,13 @@ public class Shift {
         
         this.description = (String)shiftMap.get("description");
         this.shiftStart = LocalTime.parse(shiftMap.get("shiftstart"), format);
-        System.out.println(shiftStart);
         this.shiftStop = LocalTime.parse(shiftMap.get("shiftstop"), format);
-        System.out.println(this.shiftStop);
         this.roundInterval = Integer.valueOf(shiftMap.get("roundinterval"));
-        System.out.println(this.roundInterval);
         this.gracePeriod = Integer.valueOf(shiftMap.get("graceperiod"));
-        System.out.println(this.gracePeriod);
         this.dockPenalty = Integer.valueOf(shiftMap.get("dockpenalty"));
-        System.out.println(this.dockPenalty);
         this.lunchStart = LocalTime.parse(shiftMap.get("lunchstart"), format);
-        System.out.println(this.lunchStart);
         this.lunchStop = LocalTime.parse(shiftMap.get("lunchstop"), format);
-        System.out.println(this.lunchStop);
         this.lunchThreshold = Integer.valueOf(shiftMap.get("lunchthreshold"));
-        System.out.println(this.lunchThreshold);
     }
 
     public String getDescription() {

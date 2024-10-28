@@ -43,7 +43,7 @@ public class PunchDAO {
                     int eventType = rs.getInt("eventtypeid");
                     Badge bad = badgeDAO.find(badgeid);
                     EventType punchType = DAOUtility.getEventType(eventType);
-                    punch = new Punch(id, termid, bad, timestamp.toLocalDateTime(), punchType, null, null);
+                    punch = new Punch(id, termid, bad, timestamp.toLocalDateTime(), punchType);
                 }  
             }
         } catch (SQLException e) {
