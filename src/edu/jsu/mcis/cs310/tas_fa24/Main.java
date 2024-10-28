@@ -36,10 +36,10 @@ public class Main {
         LocalDate listTestDate = LocalDate.of(2018, 8, 1);
         ArrayList<Punch> punchList = punchDAO.list(listTestBadge, listTestDate);
         
-        /*Badge rangeListTestBadge = badgeDAO.find("CEBCC740");
+        Badge rangeListTestBadge = badgeDAO.find("CEBCC740");
         LocalDate rangeListTestDateStart = LocalDate.of(2018, 8, 1);
-        LocalDate rangeListTestDateEnd = LocalDate.of(2018, 8, 4);
-        ArrayList<Punch> rangePunchList = punchDAO.list(rangeListTestBadge, rangeListTestDateStart, rangeListTestDateEnd);*/
+        LocalDate rangeListTestDateEnd = LocalDate.of(2018, 8, 3);
+        ArrayList<Punch> rangePunchList = punchDAO.list(rangeListTestBadge, rangeListTestDateStart, rangeListTestDateEnd);
         
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
@@ -52,11 +52,11 @@ public class Main {
             counter++;
             System.out.println("Punch Number " + counter + ": " + i.toString());
         }
-        /*counter = 0;
+        counter = 0;
         for (Punch i : rangePunchList) {
             counter++;
             System.out.println("Date: " + i.getOriginalTimeStamp() + "; " + "Punch Number " + counter + ": " + i.toString());
-        }*/
+        }
     }
 
 }
