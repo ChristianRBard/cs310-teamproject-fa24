@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class PunchDAO {
     private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";
-    private static final String QUERY_LIST = "SELECT * FROM event WHERE badgeid = ? AND DATE(timestamp) = ?";
+    private static final String QUERY_LIST = "SELECT * FROM event WHERE badgeid = ? AND DATE(timestamp) = ? ORDER BY DATE(timestamp)";
 
     private final DAOFactory daoFactory;
 
@@ -53,7 +53,7 @@ public class PunchDAO {
         return punch;
     }
 
-public ArrayList<Punch> list(Badge badge, LocalDate date) {
+    public ArrayList<Punch> list(Badge badge, LocalDate date) {
         ArrayList<Punch> punchList = new ArrayList<>();
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -82,6 +82,21 @@ public ArrayList<Punch> list(Badge badge, LocalDate date) {
 
         return punchList;
     }
+
+    /*public ArrayList<Punch> list(Badge badge, LocalDate startDate, LocalDate endDate) {
+        LocalDate dateCounter = startDate;
+        ArrayList<Punch> rangePunchList = new ArrayList<>();
+        rangePunchList.addAll(list(badge, dateCounter));
+        for (Punch p : rangePunchList) {
+            System.out.print(p.toString() + "\t");
+        }
+        while (dateCounter.isBefore(endDate)) {
+            dateCounter.plusDays(1);
+            rangePunchList.addAll(list(badge, dateCounter));
+            
+        }
+        return rangePunchList;
+    }*/
 }
     /*public Punch find(int id) {
         Punch punch = null;
