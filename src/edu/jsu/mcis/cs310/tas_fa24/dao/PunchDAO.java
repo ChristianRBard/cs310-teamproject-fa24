@@ -103,22 +103,46 @@ public ArrayList<Punch> list(Badge badge, LocalDate date) {
             pst.setString(1, badge.getId());
             pst.setDate(2, Date.valueOf(date));
             rs = pst.executeQuery();
-
+            boolean firstPunch = true;
             while (rs.next()) {
-                int id = rs.getInt("id");
-                int termID = rs.getInt("terminalid");
-                Timestamp time = rs.getTimestamp("timestamp");
+                
                 int eventID = rs.getInt("eventtypeid");
-                EventType event = DAOUtility.getEventType(eventID);
-                Punch punch = new Punch(id, termID, badge, time.toLocalDateTime(), event);
-                punchList.add(punch);
+                if (!firstPunch || (firstPunch && eventID == 1)) {
+                    int id = rs.getInt("id");
+                    int termID = rs.getInt("terminalid");
+                    Timestamp time = rs.getTimestamp("timestamp");
+                    EventType event = DAOUtility.getEventType(eventID);
+                    Punch punch = new Punch(id, termID, badge, time.toLocalDateTime(), event);
+                    punchList.add(punch);
+                }
+                firstPunch = false;
+            }
+            try {
+                conn = daoFactory.getConnection();
+                pst = conn.prepareStatement(QUERY_LIST);
+                pst.setString(1, badge.getId());
+                pst.setDate(2, Date.valueOf(date.plusDays(1)));
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    int eventID = rs.getInt("eventtypeid");
+                    if (eventID != 1){
+                        int id = rs.getInt("id");
+                        int termID = rs.getInt("terminalid");
+                        Timestamp time = rs.getTimestamp("timestamp");
+                        EventType event = DAOUtility.getEventType(eventID);
+                        Punch punch = new Punch(id, termID, badge, time.toLocalDateTime(), event);
+                        punchList.add(punch);
+                    }
+                }
+            }
+            catch (SQLException e) {
+                throw new DAOException(e.getMessage());
             }
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         } finally {
             DAOUtility.close(rs, pst);
         }
-
         return punchList;
     }
 
