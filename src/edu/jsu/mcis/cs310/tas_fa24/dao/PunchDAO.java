@@ -88,9 +88,6 @@ public class PunchDAO {
         LocalDate dateCounter = startDate;
         ArrayList<Punch> rangePunchList = new ArrayList<>();
         rangePunchList.addAll(list(badge, dateCounter));
-        for (Punch p : rangePunchList) {
-            System.out.print(p.toString() + "\t");
-        }
         while (dateCounter.isBefore(endDate)) {
             dateCounter = dateCounter.plusDays(1);
             rangePunchList.addAll(list(badge, dateCounter));
