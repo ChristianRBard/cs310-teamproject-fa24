@@ -26,24 +26,20 @@ public class Main {
         Badge b = badgeDAO.find("C4F37EFF");
         
         Badge b3 = badgeDAO.find("4382D92D");
+        System.err.println("Test Badge: " + b.toString());
+        // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
         
-        //Punch p = punchDAO.find(4943);
-
-        Punch p1 = punchDAO.find(3716);
-        Punch p2 = punchDAO.find(5004);
-
-        /* Adjust Punches According to Shift Rulesets */
-        
-        
-        
+        //Punch Adjust Test code. Also find Punch Test code.
+        /*Punch p1 = punchDAO.find(3953);
         Shift s = shiftDAO.find(1);
-        Shift s2 = shiftDAO.find(2);
-        
-        //p.adjust(s);
         p1.adjust(s);
-        p2.adjust(s2);
-        
-        Badge listTestBadge = badgeDAO.find("BE51FA92");
+        System.out.println(p1.toString());
+        System.out.println("#D2C39273 CLOCK OUT: MON 09/10/2018 15:15:00 (Interval Round)");
+        System.out.println(p1.printAdjusted());
+        System.out.println(s);*/
+
+        // Badge List Test code
+        /*Badge listTestBadge = badgeDAO.find("BE51FA92");
         LocalDate listTestDate = LocalDate.of(2018, 8, 1);
         ArrayList<Punch> punchList = punchDAO.list(listTestBadge, listTestDate);
         
@@ -51,24 +47,10 @@ public class Main {
         LocalDate rangeListTestDateStart = LocalDate.of(2018, 8, 1);
         LocalDate rangeListTestDateEnd = LocalDate.of(2018, 8, 3);
         ArrayList<Punch> rangePunchList = punchDAO.list(rangeListTestBadge, rangeListTestDateStart, rangeListTestDateEnd);
+        */
         
-        // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
-        
-
-        //System.err.println("Test Badge: " + b.toString());
-        //System.out.println(p.toString());
-        //System.out.println(p.printAdjusted());
-        System.out.println("#28DC3FB8 CLOCK OUT: FRI 09/07/2018 15:30:00 (Shift Stop)");
-        System.out.println(p1.printAdjusted());
-        System.out.println(s2);
-        //System.out.println(p2.printAdjusted());
-        /*System.out.println("Test Shift 1: " + s.toString());
-        System.out.println("Test Shift 2: " + s2.toString());*/
-        //p.adjust(s);
-        System.err.println("Test Badge: " + b.toString());
-        System.out.println("Test Shift 1: " + s.toString());
-        System.out.println("Test Shift 2: " + s2.toString());
-        int counter = 0;
+        // Punch List Test Code
+        /*int counter = 0;
         for (Punch i : punchList) {
             counter++;
             System.out.println("Punch Number " + counter + ": " + i.toString());
@@ -77,6 +59,6 @@ public class Main {
         for (Punch i : rangePunchList) {
             counter++;
             System.out.println("Date: " + i.getOriginalTimeStamp() + "; " + "Punch Number " + counter + ": " + i.toString());
-        }
+        }*/
     }
 }

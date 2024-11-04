@@ -1,10 +1,8 @@
 package edu.jsu.mcis.cs310.tas_fa24;
 
-import edu.jsu.mcis.cs310.tas_fa24.dao.DAOFactory;
-import edu.jsu.mcis.cs310.tas_fa24.dao.EmployeeDAO;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Punch {
     private final int terminalid;
@@ -57,17 +55,7 @@ public class Punch {
     public void setPunchAdjustmentType(PunchAdjustmentType adjType){
         this.adjustmenttype = adjType;
     }
-    
-    /*public Boolean isBetween(LocalTime ogt, LocalTime b, LocalTime a){
-        Boolean truthStatement = false;
-        
-        if(ogt.isBefore(a)&&ogt.isAfter(b)){
-            truthStatement = true;
-        }
-        
-        return truthStatement;
-    }*/
-        
+     
     public void adjust(Shift s){
         LocalDateTime ogt = getOriginalTimeStamp();
         LocalTime ogtToTime = ogt.toLocalTime();
@@ -80,87 +68,102 @@ public class Punch {
         final LocalTime lunchStart = s.getLunchStart();
         final LocalTime lunchStop = s.getLunchStop();
         PunchAdjustmentType adjType = PunchAdjustmentType.NONE;
-        
+        ArrayList<Integer> intervals = new ArrayList<>();
+        intervals.add(0, 00);
+        intervals.add(1, 15);
+        intervals.add(2, 30);
+        intervals.add(3, 45);
+
         switch(getPunchType().ordinal()){
             case 0://Clock Out
                 System.out.println("Clock Out");
+                System.out.println(ogtToDate + " " + ogtToDate.getDayOfWeek());
+                if(!ogtToDate.getDayOfWeek().toString().toLowerCase().equals("saturday") && !ogtToDate.getDayOfWeek().toString().toLowerCase().equals("sunday")){
                 
-                if(ogtToTime.isAfter(shiftStop.minusMinutes(gracePeriod))&&ogtToTime.isBefore(shiftStop.plusMinutes(intervalRound))){
-                    System.out.println("Shift Stop");
-                    ogtToTime = shiftStop;
+                    if(ogtToTime.isAfter(shiftStop.minusMinutes(gracePeriod))&&ogtToTime.isBefore(shiftStop.plusMinutes(intervalRound))){
+                        System.out.println("Shift Stop");
+                        ogtToTime = shiftStop;
+                        System.out.println(ogtToTime);
+                        adjType = PunchAdjustmentType.SHIFT_STOP;
+                        break;
+                    }
+
+                    if(ogtToTime.isAfter(lunchStart) && ogtToTime.isBefore(lunchStop)){
+                        System.out.println("Lunch Punch Out");
+                        ogtToTime = lunchStart;
+                        adjType = PunchAdjustmentType.LUNCH_START;
+                        break;
+                    }
+                    
+                    if(ogtToTime.isAfter(shiftStop.minusMinutes(dockPenalty + 1)) && ogtToTime.isBefore(shiftStop.minusMinutes(gracePeriod))){
+                        System.out.println("DockPenalty");
+                        ogtToTime = shiftStop.minusMinutes(dockPenalty);
+                        adjType = PunchAdjustmentType.SHIFT_DOCK;
+                        break;
+                    }
+                    
+                }
+                System.out.println("Before Interval Round");
+                if(!intervals.contains(ogtToTime.getMinute())){
+                    int roundedSeconds = (((ogtToTime.getMinute() * 60 + ogtToTime.getSecond()) + 450) / 900) * 900;
+                    int roundedMinutes = roundedSeconds / 60;
+                    System.out.println(roundedMinutes);
+                    System.out.println(roundedSeconds);
+                    
+                    int roundedHours = ogtToTime.getHour() + (roundedMinutes / 60);
+                    System.out.println(roundedHours);
+                    roundedMinutes = roundedMinutes % 60;
+                    ogtToTime = LocalTime.of(roundedHours, roundedMinutes);
                     System.out.println(ogtToTime);
-                    adjType = PunchAdjustmentType.SHIFT_STOP;
-                    break;
-                }
-                
-                if(ogtToTime.isAfter(lunchStart) && ogtToTime.isBefore(lunchStop)){
-                    System.out.println("Lunch Punch Out");
-                    ogtToTime = lunchStart;
-                    adjType = PunchAdjustmentType.LUNCH_START;
-                    break;
-                }
-                
-                /*if(ogtToTime.isAfter(shiftStop.plusMinutes(15))){
-                    System.out.println("Interval Round Clock Out");
-                    ogtToTime = shiftStop;
+                    System.out.println("Interval Round");
                     adjType = PunchAdjustmentType.INTERVAL_ROUND;
                     break;
-                }*/
-                
-                /*if(isBetween(ogtToTime, before, after)){
-                    System.out.println("DockPenalty");
-                    ogtToTime = shiftStop.minusMinutes(dockPenalty);
-                    adjType = PunchAdjustmentType.SHIFT_DOCK;
-                    break;
                 }
-                
-                if(ogtToTime.equals(shiftStop)){
-                    System.out.println("No Adjustment Needed Clock Out");
-                    ogtToTime = shiftStop;
+                    ogtToTime = LocalTime.of(ogtToTime.getHour(), ogtToTime.getMinute(), 00);
                     break;
-                }*/
-                
-                break;
             case 1://Clock In
                 System.out.println("Clock In");
 
-                if(ogtToTime.isBefore(shiftStart.plusMinutes(gracePeriod))&&ogtToTime.isAfter(shiftStart.minusMinutes(intervalRound))){
-                    System.out.println("Shift Start");
-                    ogtToTime = shiftStart;
+                if(!ogtToDate.getDayOfWeek().toString().toLowerCase().equals("saturday") && !ogtToDate.getDayOfWeek().toString().toLowerCase().equals("sunday")){
+                
+                    if(ogtToTime.isBefore(shiftStart.plusMinutes(gracePeriod))&&ogtToTime.isAfter(shiftStart.minusMinutes(intervalRound))){
+                        System.out.println("Shift Start");
+                        ogtToTime = shiftStart;
+                        System.out.println(ogtToTime);
+                        adjType = PunchAdjustmentType.SHIFT_START;
+                        break;
+                    }
+
+                    if(ogtToTime.isAfter(lunchStart) && ogtToTime.isBefore(lunchStop)){
+                        ogtToTime = lunchStop;
+                        adjType = PunchAdjustmentType.LUNCH_STOP;
+                        break;
+                    }
+                    
+                    if(ogtToTime.isAfter(shiftStart.plusMinutes(gracePeriod)) && ogtToTime.isBefore(shiftStart.plusMinutes(dockPenalty - 1))){
+                        System.out.println("DockPenalty");
+                        ogtToTime = shiftStart.plusMinutes(dockPenalty);
+                        adjType = PunchAdjustmentType.SHIFT_DOCK;
+                        break;
+                    }
+                }
+                
+                if(!intervals.contains(ogtToTime.getMinute())){
+                    int roundedSeconds = (((ogtToTime.getMinute() * 60 + ogtToTime.getSecond()) + 450) / 900) * 900;
+                    int roundedMinutes = roundedSeconds / 60;
+                    System.out.println(roundedMinutes);
+                    int roundedHours = ogtToTime.getHour() + (roundedMinutes / 60);
+                    roundedMinutes = roundedMinutes % 60;
+                    ogtToTime = LocalTime.of(roundedHours, roundedMinutes);
                     System.out.println(ogtToTime);
-                    adjType = PunchAdjustmentType.SHIFT_START;
-                    break;
-                }
-                
-                if(ogtToTime.isAfter(lunchStart) && ogtToTime.isBefore(lunchStop)){
-                    ogtToTime = lunchStop;
-                    adjType = PunchAdjustmentType.LUNCH_STOP;
-                    break;
-                }
-                
-                /*if(ogtToTime.isBefore(shiftStart.minusMinutes(15))){
-                    System.out.println("Interval Round Clock In");
-                    ogtToTime = shiftStart;
+                    System.out.println("Interval Round");
                     adjType = PunchAdjustmentType.INTERVAL_ROUND;
                     break;
-                }*/
-                
-                
-                /*if(!isBetween(ogtToTime, before, after)){
-                    System.out.println("DockPenalty");
-                    ogtToTime = shiftStart.plusMinutes(dockPenalty);
-                    adjType = PunchAdjustmentType.SHIFT_DOCK;
-                    break;
                 }
                 
-                if(ogtToTime.equals(shiftStart)){
-                    System.out.println("No Adjustment Needed Clock In");
-                    ogtToTime = shiftStart;
-                    adjType = PunchAdjustmentType.NONE;
-                    break;
-                }*/
-
+                ogtToTime = LocalTime.of(ogtToTime.getHour(), ogtToTime.getMinute(), 00);
                 break;
+
             default:
                 System.out.println("Invalid punch type!");
                 break;  
