@@ -55,17 +55,21 @@ public class PunchDAO {
         int resultId = 0;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
 
         try {
-            Connection conn = daoFactory.getConnection();
+            conn = daoFactory.getConnection();
             if (conn.isValid(0)) {
-                // Retrieve Employee and Department information
                 Employee employee = employeeDAO.find(punch.getBadge());
                 Department department = employee.getDepartment();
                 
-                // Authorization check
                 if (punch.getTerminalid() == department.getTerminalId() || punch.getTerminalid() == 0) {
-                    // Authorized, insert into event table
+                    
+                    //Possibly temporary exception to check for original timestamp
+                    if (punch.getOriginaltimestamp() == null) {
+                        throw new DAOException("Punch original timestamp is null.");
+                    }
+                    
                     ps = conn.prepareStatement(QUERY_INSERT, Statement.RETURN_GENERATED_KEYS);
                     ps.setInt(1, punch.getTerminalid());
                     ps.setString(2, punch.getBadge().getId());
@@ -73,7 +77,7 @@ public class PunchDAO {
                     ps.setInt(4, punch.getPunchtype().ordinal());
 
                     int rowsAffected = ps.executeUpdate();
-
+                    
                     if (rowsAffected == 1) {
                         rs = ps.getGeneratedKeys();
                         if (rs.next()) {
@@ -83,10 +87,10 @@ public class PunchDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            DAOUtility.close(rs, ps);
-        }
+                throw new DAOException(e.getMessage());
+            } finally {
+                DAOUtility.close(rs, ps);
+            }
         return resultId;
     }
     
