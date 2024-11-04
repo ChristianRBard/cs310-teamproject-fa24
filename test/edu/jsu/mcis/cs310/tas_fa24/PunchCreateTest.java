@@ -36,7 +36,7 @@ public class PunchCreateTest {
         /* Get Punch Properties */
         
         String badgeid = p1.getBadge().getId();
-        ots = p1.getOriginaltimestamp();
+        ots = p1.getOriginalTimestamp();
         int terminalid = p1.getTerminalid();
         EventType punchtype = p1.getPunchtype();
 
@@ -52,7 +52,7 @@ public class PunchCreateTest {
         
         assertEquals(badgeid, p2.getBadge().getId());
 
-        rts = p2.getOriginaltimestamp();
+        rts = p2.getOriginalTimestamp();
 
         assertEquals(terminalid, p2.getTerminalid());
         assertEquals(punchtype, p2.getPunchtype());

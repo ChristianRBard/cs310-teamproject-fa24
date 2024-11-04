@@ -28,19 +28,19 @@ public class Punch {
        this.originaltimestamp = originaltimestamp;
     }
    
-    public int getTerminalID (){
+    public int getTerminalid (){
        return this.terminalid;
     }
     public int getID (){
        return this.id;
     }
-    public Badge getBadgeID(){
+    public Badge getBadge(){
        return this.badgeId;
     }
-    public EventType getPunchType (){
+    public EventType getPunchtype(){
        return this.punchtype;
     }
-    public LocalDateTime getOriginalTimeStamp(){
+    public LocalDateTime getOriginalTimestamp(){
        return this.originaltimestamp;
     }
     public LocalDateTime getAdjustedTimeStamp(){
@@ -57,7 +57,7 @@ public class Punch {
     }
      
     public void adjust(Shift s){
-        LocalDateTime ogt = getOriginalTimeStamp();
+        LocalDateTime ogt = getOriginalTimestamp();
         LocalTime ogtToTime = ogt.toLocalTime();
         LocalDate ogtToDate = ogt.toLocalDate();
         final int gracePeriod = s.getGracePeriod();
@@ -74,7 +74,7 @@ public class Punch {
         intervals.add(2, 30);
         intervals.add(3, 45);
 
-        switch(getPunchType().ordinal()){
+        switch(getPunchtype().ordinal()){
             case 0://Clock Out
                 System.out.println("Clock Out");
                 System.out.println(ogtToDate + " " + ogtToDate.getDayOfWeek());
@@ -197,3 +197,4 @@ public class Punch {
        return s.toString();
    }
 }
+
