@@ -171,37 +171,3 @@ public ArrayList<Punch> list(Badge badge, LocalDate startDate, LocalDate endDate
     return rangePunchList;
     }
 }
-
-    /*public Punch find(int id) {
-        Punch punch = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-
-        try {
-            Connection conn = daoFactory.getConnection();
-            pst = conn.prepareStatement(QUERY_FIND);
-            pst.setInt(1, id);
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                punch = extractPunchFromResultSet(rs);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            DAOUtility.close(rs, pst);
-        }
-
-        return punch;
-    }*/
-
-    /*private Punch extractPunchFromResultSet(ResultSet rs) throws SQLException {
-        // Replace these fields with actual columns from your 'event' table
-        int id = rs.getInt("id");
-        String badgeId = rs.getString("badgeid");
-        String eventType = rs.getString("eventtype");
-        Timestamp timestamp = rs.getTimestamp("timestamp");
-
-        // Create and return a new Punch object
-        return new Punch(id, badgeId, EventType.valueOf(eventType.toUpperCase()), timestamp.toLocalDateTime());
-    }*/
