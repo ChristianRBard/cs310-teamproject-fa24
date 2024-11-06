@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
+import edu.jsu.mcis.cs310.tas_fa24.Punch;
+import edu.jsu.mcis.cs310.tas_fa24.Shift;
 
 /**
  * Utility class for DAOs. This is a final, non-constructable class containing
@@ -62,4 +64,26 @@ public final class DAOUtility {
         }
         return null;
     }   
+    
+    public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
+        ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
+        
+        for(int x = 0; x < dailyPunchList.size(); x++){
+            HashMap<String, String> punchData = new HashMap<>();
+            Punch punch = dailyPunchList.get(x);
+            Shift s = ;
+            punch.adjust();
+            punchData.put("originaltimestamp", punch.printOriginal());
+            punchData.put("badgeid", String.valueOf(punch.getBadge()));
+            punchData.put("adjustedtimestamp", punch.printAdjusted());
+            punchData.put("adjustmenttype", punch.getAdjustedTimeStamp().toString());
+            punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
+            punchData.put("id", String.valueOf(punch.getID()));
+            punchData.put("punchType", String.valueOf(punch.getPunchtype()));
+            jsonData.add(punchData);
+            System.out.println("Testing util" + punch.getOriginalTimestamp());
+        }
+        String json = Jsoner.serialize(jsonData);
+        return json;
+    }
 }

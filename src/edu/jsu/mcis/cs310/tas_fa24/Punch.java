@@ -10,7 +10,7 @@ public class Punch {
     private final Badge badgeId;
     private final EventType punchtype;
     private final LocalDateTime originaltimestamp;
-    private LocalDateTime adjustedtimestamp = null;
+    private LocalDateTime adjustedtimestamp;
     private PunchAdjustmentType adjustmenttype = null;
     
     public Punch(int terminalid, Badge badgeID, EventType punchType){

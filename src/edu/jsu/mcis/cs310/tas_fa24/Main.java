@@ -4,6 +4,7 @@
 
 package edu.jsu.mcis.cs310.tas_fa24;
 
+import com.github.cliftonlabs.json_simple.Jsoner;
 import edu.jsu.mcis.cs310.tas_fa24.dao.*;
 import java.time.*;
 import java.util.*;
@@ -65,5 +66,12 @@ public class Main {
             counter++;
             System.out.println("Date: " + i.getOriginalTimestamp() + "; " + "Punch Number " + counter + ": " + i.toString());
         }
+
+        /* Get Punch/Badge/Shift Objects */
+        Punch p = punchDAO.find(3634);
+        Badge q = badgeDAO.find(p.getBadge().getId());
+        Shift s = shiftDAO.find(b);
+            
+            
     }
 }
