@@ -160,7 +160,6 @@ public ArrayList<Punch> list(Badge badge, LocalDate date) {
             dateCounter = dateCounter.plusDays(1);
             rangePunchList.addAll(list(badge, dateCounter));
         }
-        DAOUtility.getPunchListAsJSON(rangePunchList);
         return rangePunchList;
     }
 }

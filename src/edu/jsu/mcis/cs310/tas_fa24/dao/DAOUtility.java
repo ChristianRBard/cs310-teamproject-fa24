@@ -9,6 +9,7 @@ import java.sql.*;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
 import edu.jsu.mcis.cs310.tas_fa24.Punch;
 import edu.jsu.mcis.cs310.tas_fa24.Shift;
+import edu.jsu.mcis.cs310.tas_fa24.Badge;
 
 /**
  * Utility class for DAOs. This is a final, non-constructable class containing
@@ -17,7 +18,8 @@ import edu.jsu.mcis.cs310.tas_fa24.Shift;
  */
 public final class DAOUtility {
 
-    private DAOUtility() {}
+    //private DAOUtility() {}
+    
 
     public static void close(ResultSet rs, Statement stmt) {
         closeResultSet(rs);
@@ -67,19 +69,23 @@ public final class DAOUtility {
     
     public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
         ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
-        
+        JsonArray records = new JsonArray();
         for(int x = 0; x < dailyPunchList.size(); x++){
             HashMap<String, String> punchData = new HashMap<>();
             Punch punch = dailyPunchList.get(x);
-            Shift s = ;
-            punch.adjust();
-            punchData.put("originaltimestamp", punch.printOriginal());
-            punchData.put("badgeid", String.valueOf(punch.getBadge()));
-            punchData.put("adjustedtimestamp", punch.printAdjusted());
-            punchData.put("adjustmenttype", punch.getAdjustedTimeStamp().toString());
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");
+            LocalDateTime ogt = punch.getOriginalTimestamp();
+            String ogtFormatted = ogt.format(format).toUpperCase();
+            LocalDateTime adt = punch.getAdjustedTimeStamp();
+            String adtFormatted = adt.format(format).toUpperCase();
+
+            punchData.put("originaltimestamp", ogtFormatted);
+            punchData.put("badgeid", String.valueOf(punch.getBadge().getId()));
+            punchData.put("adjustedtimestamp", adtFormatted);
+            punchData.put("adjustmenttype", punch.getPunchAdjustmentType().toString());
             punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
             punchData.put("id", String.valueOf(punch.getID()));
-            punchData.put("punchType", String.valueOf(punch.getPunchtype()));
+            punchData.put("punchtype", String.valueOf(punch.getPunchtype()));
             jsonData.add(punchData);
             System.out.println("Testing util" + punch.getOriginalTimestamp());
         }
