@@ -8,8 +8,6 @@ import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
 import edu.jsu.mcis.cs310.tas_fa24.Punch;
-import edu.jsu.mcis.cs310.tas_fa24.Shift;
-import edu.jsu.mcis.cs310.tas_fa24.Badge;
 
 /**
  * Utility class for DAOs. This is a final, non-constructable class containing
@@ -18,7 +16,7 @@ import edu.jsu.mcis.cs310.tas_fa24.Badge;
  */
 public final class DAOUtility {
 
-    //private DAOUtility() {}
+    private DAOUtility() {}
     
 
     public static void close(ResultSet rs, Statement stmt) {
@@ -69,7 +67,6 @@ public final class DAOUtility {
     
     public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
         ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
-        JsonArray records = new JsonArray();
         for(int x = 0; x < dailyPunchList.size(); x++){
             HashMap<String, String> punchData = new HashMap<>();
             Punch punch = dailyPunchList.get(x);
@@ -87,7 +84,6 @@ public final class DAOUtility {
             punchData.put("id", String.valueOf(punch.getID()));
             punchData.put("punchtype", String.valueOf(punch.getPunchtype()));
             jsonData.add(punchData);
-            System.out.println("Testing util" + punch.getOriginalTimestamp());
         }
         String json = Jsoner.serialize(jsonData);
         return json;

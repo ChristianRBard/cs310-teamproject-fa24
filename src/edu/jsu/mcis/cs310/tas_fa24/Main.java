@@ -39,13 +39,13 @@ public class Main {
         System.out.println(p1.printAdjusted());
         System.out.println(s);*/
 
-        // Badge List Test code
+        /* Badge List Test code
         Badge listTestBadge = badgeDAO.find("BE51FA92");
         LocalDate listTestDate = LocalDate.of(2018, 8, 1);
         Shift s2 = shiftDAO.find(b3);
         
-        /*Badge listTestBadge = badgeDAO.find("7CB9642F");
-        LocalDate listTestDate = LocalDate.of(2018, 9, 10);*/
+        Badge listTestBadge = badgeDAO.find("7CB9642F");
+        LocalDate listTestDate = LocalDate.of(2018, 9, 10);
 
         ArrayList<Punch> punchList = punchDAO.list(listTestBadge, listTestDate);
         
@@ -61,27 +61,25 @@ public class Main {
             counter++;
             System.out.println("Punch Number " + counter + ": " + i.toString());
         }
-        counter = 0;
-        for (Punch i : rangePunchList) {
+        counter = 0;*/
+        
+        //Test code for getPunchListAsJSON
+        /*for (Punch i : rangePunchList) {
             counter++;
             System.out.println("Date: " + i.getOriginalTimestamp() + "; " + "Punch Number " + counter + ": " + i.toString());
         }
 
         try {
-
-            /* Get Punch/Badge/Shift Objects */
             Punch p = punchDAO.find(3634);
             Badge q = badgeDAO.find(p.getBadge().getId());
             Shift s = shiftDAO.find(b);
 
-            /* Get/Adjust Daily Punch List */
             ArrayList<Punch> dailypunchlist = punchDAO.list(q, p.getOriginalTimestamp().toLocalDate());
 
             for (Punch punch : dailypunchlist) {
                 punch.adjust(s);
             }
 
-            /* JSON Conversion */
             String actualJSON = DAOUtility.getPunchListAsJSON(dailypunchlist);
 
             ArrayList<HashMap<String, String>> actual = (ArrayList) Jsoner.deserialize(actualJSON);
@@ -93,8 +91,6 @@ public class Main {
         catch (Exception e) {
             e.printStackTrace();
         }
-
-
-            
+        */
     }
 }
