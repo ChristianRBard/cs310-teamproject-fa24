@@ -29,7 +29,9 @@ public class Main {
         Badge b3 = badgeDAO.find("4382D92D");
         System.err.println("Test Badge: " + b.toString());
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
-        
+        Punch p1 = punchDAO.find(3542);
+        System.out.println(p1.printOriginal());
+        System.out.println("#DFE4EB13 CLOCK IN: THU 2018/09/06 06:53:47");
         //Punch Adjust Test code. Also find Punch Test code.
         /*Punch p1 = punchDAO.find(3953);
         Shift s = shiftDAO.find(1);
