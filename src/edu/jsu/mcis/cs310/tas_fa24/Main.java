@@ -63,6 +63,7 @@ public class Main {
         counter = 0;
         for (Punch i : rangePunchList) {
             counter++;
+            System.err.println(i.getPunchtype());
             System.out.println("Date: " + i.getOriginalTimestamp() + "; " + "Punch Number " + counter + ": " + i.toString());
         }
     }

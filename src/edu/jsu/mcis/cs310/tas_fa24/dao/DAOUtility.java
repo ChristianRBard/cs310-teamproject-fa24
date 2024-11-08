@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
+import edu.jsu.mcis.cs310.tas_fa24.Punch;
+import edu.jsu.mcis.cs310.tas_fa24.Shift;
 
 /**
  * Utility class for DAOs. This is a final, non-constructable class containing
@@ -62,4 +64,29 @@ public final class DAOUtility {
         }
         return null;
     }   
+    
+    public static int calculateTotalMinutes(ArrayList<Punch> dailyPunchList, Shift shift) {
+        int totalMinutes = 0;
+        ArrayList<Punch> punchPair = new ArrayList<>();
+        
+        boolean first;
+        while (dailyPunchList.get(0) != null) {
+            
+            /*if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("Clock In")){
+                punchPair.add(dailyPunchList.get(0));
+                dailyPunchList.remove(0);
+                if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("Clock Out")) {
+                    punchPair.add(dailyPunchList.get(0));
+                    dailyPunchList.remove(0);
+                } else if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("Time Out")) {
+                    punchPair.remove(0);
+                }
+            }*/
+            
+        }
+
+        
+        
+        return totalMinutes;
+    }
 }
