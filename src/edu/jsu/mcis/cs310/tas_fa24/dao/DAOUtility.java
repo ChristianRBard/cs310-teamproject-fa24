@@ -8,6 +8,7 @@ import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
 import edu.jsu.mcis.cs310.tas_fa24.Punch;
+import edu.jsu.mcis.cs310.tas_fa24.Shift;
 
 /**
  * Utility class for DAOs. This is a final, non-constructable class containing
@@ -87,5 +88,49 @@ public final class DAOUtility {
         }
         String json = Jsoner.serialize(jsonData);
         return json;
+    }
+    
+    public static int calculateTotalMinutes(ArrayList<Punch> dailyPunchList, Shift shift) {
+        long totalMinutes = 0;
+        boolean lunchClockOut = false;
+        for (Punch i: dailyPunchList) {
+            i.adjust(shift);
+        }
+        if (!dailyPunchList.isEmpty()){
+            LocalTime finalClockOut = dailyPunchList.get(dailyPunchList.size()-1).getAdjustedTimeStamp().toLocalTime();
+            ArrayList<Punch> punchPair = new ArrayList<>();
+            while (!dailyPunchList.isEmpty()) {
+                if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("CLOCK_IN")){
+                    punchPair.add(dailyPunchList.get(0));
+                    dailyPunchList.remove(0);
+                    if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("CLOCK_OUT")) {
+                        punchPair.add(dailyPunchList.get(0));
+                        dailyPunchList.remove(0);
+                        if (totalMinutes != 0) {
+                        lunchClockOut = true;
+                    }
+                    } else if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("TIME_OUT")) {
+                        punchPair.remove(0);
+                        dailyPunchList.remove(0);
+                    }
+                    else {
+                        dailyPunchList.remove(0);
+                    }
+                }else {
+                    dailyPunchList.remove(0);
+                }
+                if (!punchPair.isEmpty()) {
+                    totalMinutes += java.time.Duration.between(punchPair.get(0).getAdjustedTimeStamp(), punchPair.get(1).getAdjustedTimeStamp()).toMinutes();
+                    punchPair.removeAll(punchPair);
+                }
+            }
+            if (!lunchClockOut && finalClockOut.isAfter(shift.getLunchStart())) {
+                if (totalMinutes >= shift.getLunchThreshold()){
+                    totalMinutes -= java.time.Duration.between(shift.getLunchStart(), shift.getLunchStop()).toMinutes();
+                }
+            }
+            punchPair.removeAll(punchPair);
+        }
+        return (int)totalMinutes;
     }
 }

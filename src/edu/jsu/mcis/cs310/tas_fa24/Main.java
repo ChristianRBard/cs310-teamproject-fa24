@@ -6,6 +6,7 @@ package edu.jsu.mcis.cs310.tas_fa24;
 
 import com.github.cliftonlabs.json_simple.Jsoner;
 import edu.jsu.mcis.cs310.tas_fa24.dao.*;
+import static edu.jsu.mcis.cs310.tas_fa24.dao.DAOUtility.calculateTotalMinutes;
 import java.time.*;
 import java.util.*;
 import java.time.temporal.ChronoUnit;
@@ -58,7 +59,7 @@ public class Main {
         
         
         // Punch List Test Code
-        int counter = 0;
+        /*int counter = 0;
         for (Punch i : punchList) {
             counter++;
             System.out.println("Punch Number " + counter + ": " + i.toString());
@@ -68,6 +69,7 @@ public class Main {
         //Test code for getPunchListAsJSON
         /*for (Punch i : rangePunchList) {
             counter++;
+            System.err.println(i.getPunchtype());
             System.out.println("Date: " + i.getOriginalTimestamp() + "; " + "Punch Number " + counter + ": " + i.toString());
         }
 
@@ -93,6 +95,9 @@ public class Main {
         catch (Exception e) {
             e.printStackTrace();
         }
-        */
+        }*/
+        
+        // Calculate Daily Total Test Code
+        //System.err.print(calculateTotalMinutes(punchDAO.list(badgeDAO.find("DD6E2C0C"), listTestDate), shiftDAO.find(badgeDAO.find("DD6E2C0C"))));
     }
 }
