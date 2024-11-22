@@ -1,3 +1,7 @@
+/**
+ * Provides data access methods for Employee objects.
+ */
+
 package edu.jsu.mcis.cs310.tas_fa24.dao;
 
 import edu.jsu.mcis.cs310.tas_fa24.Employee;
@@ -6,6 +10,11 @@ import edu.jsu.mcis.cs310.tas_fa24.Badge;
 import java.sql.*;
 
 public class EmployeeDAO {
+    /**
+     * Constructs an EmployeeDAO with a DAOFactory.
+     *
+     * @param daoFactory The DAOFactory instance used for database connections.
+     */
 
     private final DAOFactory daoFactory;
 
@@ -14,6 +23,12 @@ public class EmployeeDAO {
     }
 
     public Employee find(int id) {
+     /**
+     * Finds an Employee object by its ID.
+     *
+     * @param id The ID of the employee to find.
+     * @return The Employee object if found, or null if not.
+     */
         Employee employee = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -37,7 +52,13 @@ public class EmployeeDAO {
         return employee;
     }
 
-    public Employee find(Badge badge) {
+    public Employee find(Badge badge) { 
+     /**
+     * Finds an Employee object by a Badge object.
+     *
+     * @param badge The Badge object used to locate the employee.
+     * @return The Employee object if found, or null if not.
+     */
         Employee employee = null;
         PreparedStatement pst = null;
         ResultSet rs = null;

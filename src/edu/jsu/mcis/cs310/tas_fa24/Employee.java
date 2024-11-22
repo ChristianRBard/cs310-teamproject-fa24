@@ -1,10 +1,30 @@
+/**
+ * Represents an employee in the organization.
+ * Contains personal information, department details, and employment specifics.
+ * @Author ChristianRBard
+ */
+
 package edu.jsu.mcis.cs310.tas_fa24;
 
 import java.sql.Date;
 
 
 public class Employee {
-
+    
+    /**
+     * Constructs an Employee object.
+     *
+     * @param id The unique identifier of the employee.
+     * @param badgeId The badge ID of the employee.
+     * @param firstName The first name of the employee.
+     * @param middleName The middle name of the employee.
+     * @param lastName The last name of the employee.
+     * @param employeeTypeId The ID representing the type of employment.
+     * @param department The department the employee belongs to.
+     * @param shiftId The shift ID associated with the employee.
+     * @param active The activation date of the employee.
+     */
+    
     private int id;
     private String badgeId;
     private String firstName;

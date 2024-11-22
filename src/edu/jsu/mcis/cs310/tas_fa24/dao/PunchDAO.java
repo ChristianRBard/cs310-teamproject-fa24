@@ -54,7 +54,14 @@ public class PunchDAO {
         }
         return punch;
     }
-
+/**
+ * Creates a new Punch record in the database.
+ *
+ * @param punch The Punch object containing the details to be stored.
+ * @return The generated ID of the new Punch record.
+ * @throws DAOException If a database error occurs or validation fails.
+ * @Author ChristianRBard
+ */
     public int create(Punch punch) {
         EmployeeDAO employeeDAO = daoFactory.getEmployeeDAO();
         int resultId = 0;
