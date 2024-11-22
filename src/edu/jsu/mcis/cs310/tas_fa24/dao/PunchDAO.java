@@ -20,7 +20,11 @@ public class PunchDAO {
     public PunchDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
-
+    /**
+     * <p>This function is responsible for getting the punch information. It gets the result set from the sql file then uses it to create a punch object.<p>
+     * @param id
+     * @return Punch Object
+     */
     public Punch find(int id) {
         Punch punch = null;
         BadgeDAO badgeDAO = daoFactory.getBadgeDAO();

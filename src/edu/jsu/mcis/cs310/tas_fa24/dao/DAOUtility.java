@@ -8,11 +8,13 @@ import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
 import edu.jsu.mcis.cs310.tas_fa24.Punch;
+import edu.jsu.mcis.cs310.tas_fa24.Shift;
 
 /**
  * Utility class for DAOs. This is a final, non-constructable class containing
  * common DAO logic and other repeated and/or standardized code, refactored into
  * individual static methods.
+ * @author Conner Bain, Christian Bard, Caden Parrish 
  */
 public final class DAOUtility {
 
@@ -53,7 +55,11 @@ public final class DAOUtility {
             }
         }
     }
-    
+    /**
+     * <p>This function determines the type of punch<p>
+     * @param x
+     * @return EventType
+     */
     public static EventType getEventType(int x){
         if(x == 1){
             return EventType.CLOCK_IN;
@@ -64,7 +70,11 @@ public final class DAOUtility {
         }
         return null;
     }   
-    
+    /**
+     * <p>This function takes the output of PunchList and returns it in a JSON format.<p>
+     * @param dailyPunchList Output from PunchList
+     * @return JSON form of PunchList
+     */
     public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
         ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
         for(int x = 0; x < dailyPunchList.size(); x++){
@@ -83,6 +93,32 @@ public final class DAOUtility {
             punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
             punchData.put("id", String.valueOf(punch.getID()));
             punchData.put("punchtype", String.valueOf(punch.getPunchtype()));
+            jsonData.add(punchData);
+        }
+        String json = Jsoner.serialize(jsonData);
+        return json;
+    }
+    
+    public static String getPunchListPlusTotalsAsJSON(ArrayList<Punch> punchlist, Shift shift){
+        ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
+        for(int x = 0; x < punchlist.size(); x++){
+            HashMap<String, String> punchData = new HashMap<>();
+            Punch punch = punchlist.get(x);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");
+            LocalDateTime ogt = punch.getOriginalTimestamp();
+            String ogtFormatted = ogt.format(format).toUpperCase();
+            LocalDateTime adt = punch.getAdjustedTimeStamp();
+            String adtFormatted = adt.format(format).toUpperCase();
+
+            punchData.put("originaltimestamp", ogtFormatted);
+            punchData.put("badgeid", String.valueOf(punch.getBadge().getId()));
+            punchData.put("adjustedtimestamp", adtFormatted);
+            punchData.put("adjustmenttype", punch.getPunchAdjustmentType().toString());
+            punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
+            punchData.put("id", String.valueOf(punch.getID()));
+            punchData.put("punchtype", String.valueOf(punch.getPunchtype()));
+            //punchData.put("totalminutes", String.valueOf(calculateTotalMinutes()));
+            //punchData.put("absenteeism", String.valueOf(calculateAbsenteeism());
             jsonData.add(punchData);
         }
         String json = Jsoner.serialize(jsonData);

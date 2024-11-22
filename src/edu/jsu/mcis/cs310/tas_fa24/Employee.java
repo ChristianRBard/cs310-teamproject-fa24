@@ -6,17 +6,17 @@ import java.sql.Date;
 public class Employee {
 
     private int id;
-    private String badgeId;
+    private Badge badgeId;
     private String firstName;
     private String middleName;
     private String lastName;
     private int employeeTypeId;
     private Department department;
-    private int shiftId;
+    private Shift shiftId;
     private Date active;
 
-    public Employee(int id, String badgeId, String firstName, String middleName, String lastName, 
-                    int employeeTypeId, Department department, int shiftId, Date active) {
+    public Employee(int id, Badge badgeId, String firstName, String middleName, String lastName, 
+                    int employeeTypeId, Department department, Shift shiftId, Date active) {
         this.id = id;
         this.badgeId = badgeId;
         this.firstName = firstName;
@@ -32,7 +32,7 @@ public class Employee {
         return id;
     }
 
-    public String getBadgeId() {
+    public Badge getBadgeId() {
         return badgeId;
     }
 
@@ -56,7 +56,7 @@ public class Employee {
         return department;
     }
 
-    public int getShiftId() {
+    public Shift getShiftId() {
         return shiftId;
     }
 

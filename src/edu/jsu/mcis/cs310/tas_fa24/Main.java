@@ -29,9 +29,7 @@ public class Main {
         Badge b3 = badgeDAO.find("4382D92D");
         System.err.println("Test Badge: " + b.toString());
         // output should be "Test Badge: #C4F37EFF (Welch, Travis C)"
-        Punch p1 = punchDAO.find(3542);
-        System.out.println(p1.printOriginal());
-        System.out.println("#DFE4EB13 CLOCK IN: THU 2018/09/06 06:53:47");
+        
         //Punch Adjust Test code. Also find Punch Test code.
         /*Punch p1 = punchDAO.find(3953);
         Shift s = shiftDAO.find(1);
@@ -56,33 +54,33 @@ public class Main {
         LocalDate rangeListTestDateEnd = LocalDate.of(2018, 9, 14);
         ArrayList<Punch> rangePunchList = punchDAO.list(rangeListTestBadge, rangeListTestDateStart, rangeListTestDateEnd);
         
-        
+        /*
         // Punch List Test Code
         int counter = 0;
         for (Punch i : punchList) {
             counter++;
             System.out.println("Punch Number " + counter + ": " + i.toString());
-        }
-        counter = 0;*/
+        }*/
+        int counter = 0;
         
-        //Test code for getPunchListAsJSON
-        /*for (Punch i : rangePunchList) {
+        /*//Test code for getPunchListAsJSON
+        for (Punch i : rangePunchList) {
             counter++;
             System.out.println("Date: " + i.getOriginalTimestamp() + "; " + "Punch Number " + counter + ": " + i.toString());
-        }
+        }*/
 
         try {
-            Punch p = punchDAO.find(3634);
-            Badge q = badgeDAO.find(p.getBadge().getId());
-            Shift s = shiftDAO.find(b);
+            Punch punc = punchDAO.find(1352);
+            Badge badge = badgeDAO.find(punc.getBadge().getId());
+            Shift s = shiftDAO.find(badge);
+        
+            ArrayList<Punch> dailyPunchList = punchDAO.list(badge, punc.getOriginalTimestamp().toLocalDate());
 
-            ArrayList<Punch> dailypunchlist = punchDAO.list(q, p.getOriginalTimestamp().toLocalDate());
-
-            for (Punch punch : dailypunchlist) {
-                punch.adjust(s);
+            for (Punch pun : dailyPunchList) {
+                pun.adjust(s);
             }
 
-            String actualJSON = DAOUtility.getPunchListAsJSON(dailypunchlist);
+            String actualJSON = DAOUtility.getPunchListAsJSON(dailyPunchList);
 
             ArrayList<HashMap<String, String>> actual = (ArrayList) Jsoner.deserialize(actualJSON);
             System.out.println(actual);
@@ -93,6 +91,6 @@ public class Main {
         catch (Exception e) {
             e.printStackTrace();
         }
-        */
+        
     }
 }
