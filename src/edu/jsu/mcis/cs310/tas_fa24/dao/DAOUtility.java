@@ -2,7 +2,6 @@ package edu.jsu.mcis.cs310.tas_fa24.dao;
 
 import java.time.*;
 import java.util.*;
-import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
@@ -90,6 +89,14 @@ public final class DAOUtility {
         return json;
     }
     
+    /**
+     * <p>This method takes an array list of Punch objects and a Shift object,
+     * iterates through the pairs of punches, calculates the total number of minutes
+     * worked minus lunch break deductions if needed, then returns that number</p>
+     * @param dailyPunchList The array list of Punch objects the user wants the total of minutes from
+     * @param shift The Shift objects that is used to determine if time needs to be deducted for a lunch break
+     * @return The total number of minutes accrued for the employee for the day as an int
+     */
     public static int calculateTotalMinutes(ArrayList<Punch> dailyPunchList, Shift shift) {
         long totalMinutes = 0;
         boolean lunchClockOut = false;
