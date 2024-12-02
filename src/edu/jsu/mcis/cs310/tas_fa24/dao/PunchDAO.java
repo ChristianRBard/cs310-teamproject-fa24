@@ -10,6 +10,10 @@ import edu.jsu.mcis.cs310.tas_fa24.Department;
 import edu.jsu.mcis.cs310.tas_fa24.Employee;
 import java.sql.*;
 
+/**
+ * <p>This class provides methods for accessing Punch objects</p>
+ * @author Caden Parrish, Connor Bain, Christian Bard
+ */
 public class PunchDAO {
     private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";  
     private static final String QUERY_INSERT = "INSERT INTO event (terminalid, badgeid, timestamp, eventtypeid) VALUES (?, ?, ?, ?)";
@@ -20,11 +24,11 @@ public class PunchDAO {
     public PunchDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
-    /**
-     * <p>This function is responsible for getting the punch information. It gets the result set from the sql file then uses it to create a punch object.<p>
-     * @param id
-     * @return Punch Object
-     */
+/**
+* <p>This function is responsible for getting the punch information. It gets the result set from the sql file then uses it to create a punch object.<p>
+* @param id
+* @return Punch Object
+*/
     public Punch find(int id) {
         Punch punch = null;
         BadgeDAO badgeDAO = daoFactory.getBadgeDAO();
@@ -54,7 +58,14 @@ public class PunchDAO {
         }
         return punch;
     }
-
+/**
+ * Creates a new Punch record in the database.
+ *
+ * @param punch The Punch object containing the details to be stored.
+ * @return The generated ID of the new Punch record.
+ * @throws DAOException If a database error occurs or validation fails.
+ * @Author ChristianRBard
+ */
     public int create(Punch punch) {
         EmployeeDAO employeeDAO = daoFactory.getEmployeeDAO();
         int resultId = 0;
@@ -99,8 +110,14 @@ public class PunchDAO {
         return resultId;
     }
     
-
-public ArrayList<Punch> list(Badge badge, LocalDate date) {
+/**
+ * <p>This is a method that accepts the badge of someone in the database and the date
+ * that punches will be pulled from and returns all of the punches as an array list</p>
+ * @param badge The badge of the person the user wants the punches of
+ * @param date The date that the user wants punches from
+ * @return All the punches from the date given by the badge given in an array list
+ */
+    public ArrayList<Punch> list(Badge badge, LocalDate date) {
 
         ArrayList<Punch> punchList = new ArrayList<>();
         PreparedStatement pst = null;
@@ -155,7 +172,14 @@ public ArrayList<Punch> list(Badge badge, LocalDate date) {
         return punchList;
     }
 
-
+/**
+ * <p>This is a method that takes two dates and a badge of someone in the database
+ * and returns all of the punches in between the two dates in an array list</p>
+ * @param badge The badge of the person who the user wants the punches of
+ * @param startDate The beginning date for the punches the user wants to pull
+ * @param endDate The end date for the punches the user wants to pull
+ * @return All the punches from between the two dates as an array list
+ */
     public ArrayList<Punch> list(Badge badge, LocalDate startDate, LocalDate endDate) {
         LocalDate dateCounter = startDate;
         ArrayList<Punch> rangePunchList = new ArrayList<>();

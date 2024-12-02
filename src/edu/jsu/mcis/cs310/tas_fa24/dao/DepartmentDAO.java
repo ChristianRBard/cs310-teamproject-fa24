@@ -1,18 +1,35 @@
+/**
+ * Provides data access methods for Department objects.
+ * @Author ChristianRBard
+ */
+
 package edu.jsu.mcis.cs310.tas_fa24.dao;
 
 import edu.jsu.mcis.cs310.tas_fa24.Department;
 import java.sql.*;
 
 public class DepartmentDAO {
+    
+    /**
+     * Constructs a DepartmentDAO with a DAOFactory.
+     *
+     * @param daoFactory The DAOFactory instance used for database connections.
+     */
 
     private final DAOFactory daoFactory;
-
+    
     public DepartmentDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
-
-    public Department find(int id) {
-
+    
+    public Department find(int id) { 
+    /**
+     * Finds a Department object by its ID.
+     *
+     * @param id The ID of the department to find.
+     * @return The Department object if found, or null if not.
+     */
+        
         Department department = null;
         PreparedStatement pst = null;
         ResultSet rs = null;

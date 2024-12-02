@@ -1,10 +1,19 @@
+/**
+ * Provides data access methods for EmployeeType objects.
+ * @Author ChristianRBard
+ */
+
 package edu.jsu.mcis.cs310.tas_fa24.dao;
 
 import edu.jsu.mcis.cs310.tas_fa24.EmployeeType;
 import java.sql.*;
 
 public class EmployeeTypeDAO {
-
+    /**
+     * Constructs an EmployeeTypeDAO with a DAOFactory.
+     *
+     * @param daoFactory The DAOFactory instance used for database connections.
+     */
     private final DAOFactory daoFactory;
 
     public EmployeeTypeDAO(DAOFactory daoFactory) {
@@ -12,7 +21,12 @@ public class EmployeeTypeDAO {
     }
 
     public EmployeeType find(int id) {
-
+     /**
+     * Finds an EmployeeType object by its ID.
+     *
+     * @param id The ID of the employee type to find.
+     * @return The EmployeeType object if found, or null if not.
+     */
         EmployeeType employeeType = null;
         PreparedStatement pst = null;
         ResultSet rs = null;

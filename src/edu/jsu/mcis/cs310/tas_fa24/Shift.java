@@ -3,7 +3,10 @@ package edu.jsu.mcis.cs310.tas_fa24;
 import java.util.HashMap;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * <p>Class used to create a Shift object which stores the details about a shift.<p>
+ * @author caden
+ */
 public class Shift {
     private final String description;
     private final LocalTime shiftStart;
@@ -12,7 +15,10 @@ public class Shift {
     private final LocalTime lunchStart;
     private final LocalTime lunchStop;
     private final int lunchThreshold;
-    
+/**
+ * <p>Creates a shift object<p>
+ * @param shiftMap A list of details about the shift to be converted to the object
+ */
     public Shift(HashMap<String, String> shiftMap) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss");
         
@@ -57,7 +63,10 @@ public class Shift {
     public int getLunchThreshold() {
         return this.lunchThreshold;
     }
-    
+/**
+ * <p>Prints the details about the shift. Formats it to be readable<p>
+ * @return Prints details about the shift
+ */
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();

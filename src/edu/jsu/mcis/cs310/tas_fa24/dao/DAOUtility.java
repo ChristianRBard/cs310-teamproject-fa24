@@ -2,7 +2,6 @@ package edu.jsu.mcis.cs310.tas_fa24.dao;
 
 import java.time.*;
 import java.util.*;
-import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import com.github.cliftonlabs.json_simple.*;
 import java.sql.*;
@@ -98,7 +97,60 @@ public final class DAOUtility {
         String json = Jsoner.serialize(jsonData);
         return json;
     }
+
+    /**
+     * <p>This method takes an array list of Punch objects and a Shift object,
+     * iterates through the pairs of punches, calculates the total number of minutes
+     * worked minus lunch break deductions if needed, then returns that number</p>
+     * @param dailyPunchList The array list of Punch objects the user wants the total of minutes from
+     * @param shift The Shift objects that is used to determine if time needs to be deducted for a lunch break
+     * @return The total number of minutes accrued for the employee for the day as an int
+     */
+    public static int calculateTotalMinutes(ArrayList<Punch> dailyPunchList, Shift shift) {
+        long totalMinutes = 0;
+        boolean lunchClockOut = false;
+        for (Punch i: dailyPunchList) {
+            i.adjust(shift);
+        }
+        if (!dailyPunchList.isEmpty()){
+            LocalTime finalClockOut = dailyPunchList.get(dailyPunchList.size()-1).getAdjustedTimeStamp().toLocalTime();
+            ArrayList<Punch> punchPair = new ArrayList<>();
+            while (!dailyPunchList.isEmpty()) {
+                if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("CLOCK_IN")){
+                    punchPair.add(dailyPunchList.get(0));
+                    dailyPunchList.remove(0);
+                    if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("CLOCK_OUT")) {
+                        punchPair.add(dailyPunchList.get(0));
+                        dailyPunchList.remove(0);
+                        if (totalMinutes != 0) {
+                        lunchClockOut = true;
+                    }
+                    } else if (dailyPunchList.get(0).getPunchtype() == EventType.valueOf("TIME_OUT")) {
+                        punchPair.remove(0);
+                        dailyPunchList.remove(0);
+                    }
+                    else {
+                        dailyPunchList.remove(0);
+                    }
+                }else {
+                    dailyPunchList.remove(0);
+                }
+                if (!punchPair.isEmpty()) {
+                    totalMinutes += java.time.Duration.between(punchPair.get(0).getAdjustedTimeStamp(), punchPair.get(1).getAdjustedTimeStamp()).toMinutes();
+                    punchPair.removeAll(punchPair);
+                }
+            }
+            if (!lunchClockOut && finalClockOut.isAfter(shift.getLunchStart())) {
+                if (totalMinutes >= shift.getLunchThreshold()){
+                    totalMinutes -= java.time.Duration.between(shift.getLunchStart(), shift.getLunchStop()).toMinutes();
+                }
+            }
+            punchPair.removeAll(punchPair);
+        }
+        return (int)totalMinutes;
+    }
     
+        
     public static String getPunchListPlusTotalsAsJSON(ArrayList<Punch> punchlist, Shift shift){
         ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
         for(int x = 0; x < punchlist.size(); x++){

@@ -3,7 +3,10 @@ package edu.jsu.mcis.cs310.tas_fa24;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
+/**
+ * <p>Class used for creating and using Punch Objects<p>
+ * @author caden
+ */
 public class Punch {
     private final int terminalid;
     private int id;
@@ -12,14 +15,26 @@ public class Punch {
     private final LocalDateTime originaltimestamp;
     private LocalDateTime adjustedtimestamp;
     private PunchAdjustmentType adjustmenttype = null;
-    
+/**
+* <p>Constructor for creating a punch that has not been adjusted<p>
+* @param terminalid Terminal used for creating a punch
+* @param badgeID Badge id of Employee creating a punch
+* @param punchType Punch Type
+*/
     public Punch(int terminalid, Badge badgeID, EventType punchType){
        this.terminalid = terminalid;
        this.badgeId = badgeID;
        this.punchtype = punchType;
        this.originaltimestamp = LocalDateTime.now();
     }
-   
+/**
+* <p>Constructor for creating a punch that has not been adjusted<p>
+* @param id Id of employee creating punch
+* @param terminalid Terminal used for creating a punch
+* @param badgeID Badge id of Employee creating a punch
+* @param  originaltimestamp Original time the punch was created
+* @param punchType Punch Type
+*/  
     public Punch(Integer id, int terminalid, Badge badgeID, LocalDateTime originaltimestamp, EventType punchType){
        this.id = id;
        this.terminalid = terminalid;
@@ -27,7 +42,7 @@ public class Punch {
        this.punchtype = punchType;
        this.originaltimestamp = originaltimestamp;
     }
-   
+
     public int getTerminalid (){
        return this.terminalid;
     }
@@ -55,7 +70,10 @@ public class Punch {
     public void setPunchAdjustmentType(PunchAdjustmentType adjType){
         this.adjustmenttype = adjType;
     }
-     
+/**
+ * <p>Adjust the punches of employees based on a set of rules provided by the sql file. Tells the type of adjustment made.<p>
+ * @param s Shift
+ */
     public void adjust(Shift s){
         LocalDateTime ogt = getOriginalTimestamp();
         LocalTime ogtToTime = ogt.toLocalTime();
@@ -176,7 +194,10 @@ public class Punch {
    public String toString(){
        return printOriginal();
    }
-   
+/**
+ * <p>Prints the original punch with no adjustments. Formats it to readable.<p>
+ * @return Original punch without adjustments
+ */
    public String printOriginal(){
        StringBuilder s = new StringBuilder();
        DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");
@@ -186,7 +207,10 @@ public class Punch {
        s.append(": ").append(fixedDate);
        return s.toString();
    }
-   
+/**
+ * <p>Prints the adjusted punch. Formats it to be readable.<p>
+ * @return Adjusted punch
+ */
    public String printAdjusted(){
        StringBuilder s = new StringBuilder();
        DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");

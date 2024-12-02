@@ -30,7 +30,7 @@ public class TimeAccruedTest {
         
         /* Get/Adjust Punch List */
 
-        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginaltimestamp().toLocalDate());
+        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginalTimestamp().toLocalDate());
 
         for (Punch punch : dailypunchlist) {
             punch.adjust(s);
@@ -60,7 +60,7 @@ public class TimeAccruedTest {
         
         /* Get/Adjust Punch List */
 
-        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginaltimestamp().toLocalDate());
+        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginalTimestamp().toLocalDate());
 
         for (Punch punch : dailypunchlist) {
             punch.adjust(s);
@@ -90,7 +90,7 @@ public class TimeAccruedTest {
         
         /* Get/Adjust Punch List */
 
-        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginaltimestamp().toLocalDate());
+        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginalTimestamp().toLocalDate());
 
         for (Punch punch : dailypunchlist) {
             punch.adjust(s);
@@ -120,7 +120,7 @@ public class TimeAccruedTest {
         
         /* Get/Adjust Punch List */
 
-        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginaltimestamp().toLocalDate());
+        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginalTimestamp().toLocalDate());
 
         for (Punch punch : dailypunchlist) {
             punch.adjust(s);
@@ -134,6 +134,34 @@ public class TimeAccruedTest {
         
         assertEquals(540, m);
 
+    }
+    
+    @Test
+    public void testMinutesAccruedShift1WeekdayWithLunchClockout() {
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+        ShiftDAO shiftDAO = daoFactory.getShiftDAO();
+
+        /* Get Punch/Badge/Shift Objects */
+
+        Punch p = punchDAO.find(2723);
+        Badge b = p.getBadge();
+        Shift s = shiftDAO.find(b);
+        
+        /* Get/Adjust Punch List */
+
+        ArrayList<Punch> dailypunchlist = punchDAO.list(b, p.getOriginalTimestamp().toLocalDate());
+
+        for (Punch punch : dailypunchlist) {
+            punch.adjust(s);
+        }
+
+        /* Compute Pay Period Total */
+        
+        int m = DAOUtility.calculateTotalMinutes(dailypunchlist, s);
+
+        /* Compare to Expected Value */
+        
+        assertEquals(600, m);
     }
 
 }
