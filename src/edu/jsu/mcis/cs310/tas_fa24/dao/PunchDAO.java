@@ -8,6 +8,7 @@ import edu.jsu.mcis.cs310.tas_fa24.Shift;
 import edu.jsu.mcis.cs310.tas_fa24.EventType;
 import edu.jsu.mcis.cs310.tas_fa24.Department;
 import edu.jsu.mcis.cs310.tas_fa24.Employee;
+import java.time.format.DateTimeFormatter;
 import java.sql.*;
 
 /**
@@ -72,7 +73,9 @@ public class PunchDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = null;
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        
         try {
             conn = daoFactory.getConnection();
             if (conn.isValid(0)) {
@@ -89,7 +92,7 @@ public class PunchDAO {
                     ps = conn.prepareStatement(QUERY_INSERT, Statement.RETURN_GENERATED_KEYS);
                     ps.setInt(1, punch.getTerminalid());
                     ps.setString(2, punch.getBadge().getId());
-                    ps.setTimestamp(3, Timestamp.valueOf(punch.getOriginalTimestamp()));
+                    ps.setTimestamp(3, Timestamp.valueOf(punch.getOriginalTimestamp().format(dtf)));
                     ps.setInt(4, punch.getPunchtype().ordinal());
 
                     int rowsAffected = ps.executeUpdate();
