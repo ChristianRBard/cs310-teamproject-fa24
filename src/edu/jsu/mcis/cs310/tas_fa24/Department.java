@@ -1,13 +1,13 @@
 /**
- * Represents a department within an organization.
- * Contains details about the department ID, description, and terminal ID.
+ * <p>Represents a department within an organization.
+ * Contains details about the department ID, description, and terminal ID.</p>
  * @author ChristianRBard
  */
 package edu.jsu.mcis.cs310.tas_fa24;
 
 public class Department {
     /**
-     * Constructs a Department object.
+     * <p>Constructs a Department object.</P>
      *
      * @param id The unique identifier of the department.
      * @param description A brief description of the department.

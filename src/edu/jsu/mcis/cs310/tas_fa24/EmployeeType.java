@@ -1,13 +1,13 @@
 /**
- * Represents different types of employment.
- * Defines employment as either Part-Time or Full-Time.
+ * <p>Represents different types of employment.
+ * Defines employment as either Part-Time or Full-Time.</p>
  * @Author ChristianRBard
  */
 package edu.jsu.mcis.cs310.tas_fa24;
 
 public enum EmployeeType {
     /**
-     * Constructs an EmployeeType enumeration value.
+     * <p>Constructs an EmployeeType enumeration value.</p>
      *
      * @param description A description of the employment type.
      */

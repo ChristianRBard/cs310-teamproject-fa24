@@ -1,5 +1,5 @@
 /**
- * Provides data access methods for EmployeeType objects.
+ * <p>Provides data access methods for EmployeeType objects.</p>
  * @Author ChristianRBard
  */
 
@@ -10,7 +10,7 @@ import java.sql.*;
 
 public class EmployeeTypeDAO {
     /**
-     * Constructs an EmployeeTypeDAO with a DAOFactory.
+     * <p>Constructs an EmployeeTypeDAO with a DAOFactory.</p>
      *
      * @param daoFactory The DAOFactory instance used for database connections.
      */
@@ -22,7 +22,7 @@ public class EmployeeTypeDAO {
 
     public EmployeeType find(int id) {
      /**
-     * Finds an EmployeeType object by its ID.
+     * <p>Finds an EmployeeType object by its ID.</p>
      *
      * @param id The ID of the employee type to find.
      * @return The EmployeeType object if found, or null if not.

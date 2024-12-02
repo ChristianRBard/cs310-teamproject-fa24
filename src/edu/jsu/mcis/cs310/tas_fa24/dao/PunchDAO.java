@@ -56,7 +56,7 @@ public class PunchDAO {
         return punch;
     }
 /**
- * Creates a new Punch record in the database.
+ * <p>Creates a new Punch record in the database.</p>
  *
  * @param punch The Punch object containing the details to be stored.
  * @return The generated ID of the new Punch record.

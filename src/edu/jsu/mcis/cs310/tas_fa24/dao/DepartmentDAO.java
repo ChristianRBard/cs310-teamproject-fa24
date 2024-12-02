@@ -1,5 +1,5 @@
 /**
- * Provides data access methods for Department objects.
+ * <p>Provides data access methods for Department objects.</p>
  * @Author ChristianRBard
  */
 
@@ -11,7 +11,7 @@ import java.sql.*;
 public class DepartmentDAO {
     
     /**
-     * Constructs a DepartmentDAO with a DAOFactory.
+     * <p>Constructs a DepartmentDAO with a DAOFactory.</p>
      *
      * @param daoFactory The DAOFactory instance used for database connections.
      */
@@ -24,7 +24,7 @@ public class DepartmentDAO {
     
     public Department find(int id) { 
     /**
-     * Finds a Department object by its ID.
+     * <p>Finds a Department object by its ID.</p>
      *
      * @param id The ID of the department to find.
      * @return The Department object if found, or null if not.
