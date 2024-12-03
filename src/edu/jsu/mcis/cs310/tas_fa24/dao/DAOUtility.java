@@ -70,7 +70,7 @@ public final class DAOUtility {
         return null;
     }   
     /**
-     * <p>This function takes the output of PunchList and returns it in a JSON format.<p>
+     * <p>This function takes the output of PunchList and returns it in a JSON format.</p>
      * @param dailyPunchList Output from PunchList
      * @return JSON form of PunchList
      */

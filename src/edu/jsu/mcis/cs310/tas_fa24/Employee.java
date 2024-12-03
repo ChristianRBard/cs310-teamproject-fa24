@@ -1,5 +1,5 @@
 /**
- * Represents an employee in the organization.
+ * <p>Represents an employee in the organization.</p>
  * Contains personal information, department details, and employment specifics.
  * @Author ChristianRBard
  */
@@ -12,7 +12,7 @@ import java.sql.Date;
 public class Employee {
     
     /**
-     * Constructs an Employee object.
+     * <p>Constructs an Employee object.</p>
      *
      * @param id The unique identifier of the employee.
      * @param badgeId The badge ID of the employee.

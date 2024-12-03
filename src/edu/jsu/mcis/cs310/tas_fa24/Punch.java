@@ -4,7 +4,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 /**
- * <p>Class used for creating and using Punch Objects<p>
+ * <p>Class used for creating and using Punch Objects</p>
  * @author caden
  */
 public class Punch {
@@ -16,7 +16,7 @@ public class Punch {
     private LocalDateTime adjustedtimestamp;
     private PunchAdjustmentType adjustmenttype = null;
 /**
-* <p>Constructor for creating a punch that has not been adjusted<p>
+* <p>Constructor for creating a punch that has not been adjusted</p>
 * @param terminalid Terminal used for creating a punch
 * @param badgeID Badge id of Employee creating a punch
 * @param punchType Punch Type
@@ -28,7 +28,7 @@ public class Punch {
        this.originaltimestamp = LocalDateTime.now();
     }
 /**
-* <p>Constructor for creating a punch that has not been adjusted<p>
+* <p>Constructor for creating a punch that has not been adjusted</p>
 * @param id Id of employee creating punch
 * @param terminalid Terminal used for creating a punch
 * @param badgeID Badge id of Employee creating a punch
@@ -71,7 +71,7 @@ public class Punch {
         this.adjustmenttype = adjType;
     }
 /**
- * <p>Adjust the punches of employees based on a set of rules provided by the sql file. Tells the type of adjustment made.<p>
+ * <p>Adjust the punches of employees based on a set of rules provided by the sql file. Tells the type of adjustment made.</p>
  * @param s Shift
  */
     public void adjust(Shift s){
@@ -195,7 +195,7 @@ public class Punch {
        return printOriginal();
    }
 /**
- * <p>Prints the original punch with no adjustments. Formats it to readable.<p>
+ * <p>Prints the original punch with no adjustments. Formats it to readable.</p>
  * @return Original punch without adjustments
  */
    public String printOriginal(){
