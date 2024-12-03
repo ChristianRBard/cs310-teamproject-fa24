@@ -6,8 +6,8 @@ import java.sql.*;
 import java.util.HashMap;
 
 /**
- * <p>Class for getting shift types<p>
- * @author caden
+ * <p>Class for getting shift types</p>
+ * @author Caden Parrish
  */
 public class ShiftDAO {
     private final String QUERY_FIND = "SELECT * FROM shift WHERE id = ?";
@@ -19,7 +19,7 @@ public class ShiftDAO {
     }
     
     /**
-     * <p>This method gets the shift type for an employee based on their id<p>
+     * <p>This method gets the shift type for an employee based on their id</p>
      * @param id Employee id
      * @return Returns the shift type in a Shift object
      */
@@ -48,7 +48,7 @@ public class ShiftDAO {
         return shift;
     }
     /**
-     * <p>This method takes the badge of the employee and uses it to get the id. Then it passes that to the original find function<p>
+     * <p>This method takes the badge of the employee and uses it to get the id. Then it passes that to the original find function</p>
      * @param badgeid Employees badge id
      * @return Returns the shift type in a Shift object
      */
@@ -78,7 +78,7 @@ public class ShiftDAO {
         return daoFactory.getShiftDAO().find(shiftType);
     }
     /**
-     * <p>This function is what actually gets the information from the sql file. It then creates a new Shift object and return it.<p>
+     * <p>This function is what actually gets the information from the sql file. It then creates a new Shift object and return it.</p>
      * @param rs Result set retrieved from query
      * @return Shift object
      * @throws SQLException 

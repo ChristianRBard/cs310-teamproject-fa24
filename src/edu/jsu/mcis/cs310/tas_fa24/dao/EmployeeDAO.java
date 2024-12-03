@@ -7,7 +7,6 @@ package edu.jsu.mcis.cs310.tas_fa24.dao;
 import edu.jsu.mcis.cs310.tas_fa24.Employee;
 import edu.jsu.mcis.cs310.tas_fa24.Department;
 import edu.jsu.mcis.cs310.tas_fa24.Badge;
-import edu.jsu.mcis.cs310.tas_fa24.Shift;
 import java.sql.*;
 
 public class EmployeeDAO {
@@ -93,12 +92,10 @@ public class EmployeeDAO {
         int departmentId = rs.getInt("departmentid");
         int shiftId = rs.getInt("shiftid");
         Date active = rs.getDate("active");
-        
-        Badge badge = daoFactory.getBadgeDAO().find(badgeId);
-        Shift shift = daoFactory.getShiftDAO().find(shiftId);
+
         DepartmentDAO departmentDAO = daoFactory.getDepartmentDAO();
         Department department = departmentDAO.find(departmentId);
 
-        return new Employee(id, badge, firstName, middleName, lastName, employeeTypeId, department, shift, active);
+        return new Employee(id, badgeId, firstName, middleName, lastName, employeeTypeId, department, shiftId, active);
     }
 }

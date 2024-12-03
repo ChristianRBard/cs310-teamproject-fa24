@@ -1,6 +1,6 @@
 /**
- * <p>Represents an employee in the organization.</p>
- * Contains personal information, department details, and employment specifics.
+ * <p>Represents an employee in the organization.
+ * Contains personal information, department details, and employment specifics.</p>
  * @Author ChristianRBard
  */
 
@@ -26,17 +26,17 @@ public class Employee {
      */
     
     private int id;
-    private Badge badgeId;
+    private String badgeId;
     private String firstName;
     private String middleName;
     private String lastName;
     private int employeeTypeId;
     private Department department;
-    private Shift shiftId;
+    private int shiftId;
     private Date active;
 
-    public Employee(int id, Badge badgeId, String firstName, String middleName, String lastName, 
-                    int employeeTypeId, Department department, Shift shiftId, Date active) {
+    public Employee(int id, String badgeId, String firstName, String middleName, String lastName, 
+                    int employeeTypeId, Department department, int shiftId, Date active) {
         this.id = id;
         this.badgeId = badgeId;
         this.firstName = firstName;
@@ -52,7 +52,7 @@ public class Employee {
         return id;
     }
 
-    public Badge getBadgeId() {
+    public String getBadgeId() {
         return badgeId;
     }
 
@@ -76,7 +76,7 @@ public class Employee {
         return department;
     }
 
-    public Shift getShiftId() {
+    public int getShiftId() {
         return shiftId;
     }
 

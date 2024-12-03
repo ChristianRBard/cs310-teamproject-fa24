@@ -94,20 +94,15 @@ public class Punch {
 
         switch(getPunchtype().ordinal()){
             case 0://Clock Out
-                System.out.println("Clock Out");
-                System.out.println(ogtToDate + " " + ogtToDate.getDayOfWeek());
                 if(!ogtToDate.getDayOfWeek().toString().toLowerCase().equals("saturday") && !ogtToDate.getDayOfWeek().toString().toLowerCase().equals("sunday")){
                 
                     if(ogtToTime.isAfter(shiftStop.minusMinutes(gracePeriod))&&ogtToTime.isBefore(shiftStop.plusMinutes(intervalRound))){
-                        System.out.println("Shift Stop");
                         ogtToTime = shiftStop;
-                        System.out.println(ogtToTime);
                         adjType = PunchAdjustmentType.SHIFT_STOP;
                         break;
                     }
 
                     if(ogtToTime.isAfter(lunchStart) && ogtToTime.isBefore(lunchStop)){
-                        System.out.println("Lunch Punch Out");
                         ogtToTime = lunchStart;
                         adjType = PunchAdjustmentType.LUNCH_START;
                         break;
@@ -121,33 +116,23 @@ public class Punch {
                     }
                     
                 }
-                System.out.println("Before Interval Round");
                 if(!intervals.contains(ogtToTime.getMinute())){
                     int roundedSeconds = (((ogtToTime.getMinute() * 60 + ogtToTime.getSecond()) + 450) / 900) * 900;
                     int roundedMinutes = roundedSeconds / 60;
-                    System.out.println(roundedMinutes);
-                    System.out.println(roundedSeconds);
-                    
                     int roundedHours = ogtToTime.getHour() + (roundedMinutes / 60);
-                    System.out.println(roundedHours);
                     roundedMinutes = roundedMinutes % 60;
                     ogtToTime = LocalTime.of(roundedHours, roundedMinutes);
-                    System.out.println(ogtToTime);
-                    System.out.println("Interval Round");
                     adjType = PunchAdjustmentType.INTERVAL_ROUND;
                     break;
                 }
                     ogtToTime = LocalTime.of(ogtToTime.getHour(), ogtToTime.getMinute(), 00);
                     break;
             case 1://Clock In
-                System.out.println("Clock In");
 
                 if(!ogtToDate.getDayOfWeek().toString().toLowerCase().equals("saturday") && !ogtToDate.getDayOfWeek().toString().toLowerCase().equals("sunday")){
                 
                     if(ogtToTime.isBefore(shiftStart.plusMinutes(gracePeriod))&&ogtToTime.isAfter(shiftStart.minusMinutes(intervalRound))){
-                        System.out.println("Shift Start");
                         ogtToTime = shiftStart;
-                        System.out.println(ogtToTime);
                         adjType = PunchAdjustmentType.SHIFT_START;
                         break;
                     }
@@ -159,7 +144,6 @@ public class Punch {
                     }
                     
                     if(ogtToTime.isAfter(shiftStart.plusMinutes(gracePeriod)) && ogtToTime.isBefore(shiftStart.plusMinutes(dockPenalty - 1))){
-                        System.out.println("DockPenalty");
                         ogtToTime = shiftStart.plusMinutes(dockPenalty);
                         adjType = PunchAdjustmentType.SHIFT_DOCK;
                         break;
@@ -169,12 +153,9 @@ public class Punch {
                 if(!intervals.contains(ogtToTime.getMinute())){
                     int roundedSeconds = (((ogtToTime.getMinute() * 60 + ogtToTime.getSecond()) + 450) / 900) * 900;
                     int roundedMinutes = roundedSeconds / 60;
-                    System.out.println(roundedMinutes);
                     int roundedHours = ogtToTime.getHour() + (roundedMinutes / 60);
                     roundedMinutes = roundedMinutes % 60;
                     ogtToTime = LocalTime.of(roundedHours, roundedMinutes);
-                    System.out.println(ogtToTime);
-                    System.out.println("Interval Round");
                     adjType = PunchAdjustmentType.INTERVAL_ROUND;
                     break;
                 }

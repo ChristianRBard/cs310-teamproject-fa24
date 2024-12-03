@@ -55,7 +55,7 @@ public final class DAOUtility {
         }
     }
     /**
-     * <p>This function determines the type of punch<p>
+     * <p>This function determines the type of punch</p>
      * @param x
      * @return EventType
      */
@@ -150,7 +150,7 @@ public final class DAOUtility {
         return (int)totalMinutes;
     }
     
-        
+    //Unfinished function
     public static String getPunchListPlusTotalsAsJSON(ArrayList<Punch> punchlist, Shift shift){
         ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
         for(int x = 0; x < punchlist.size(); x++){
